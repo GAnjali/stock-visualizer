@@ -11,10 +11,10 @@ class DropDown extends Component {
         let arrayOfData = this.props.arrayOfData;
         let options = arrayOfData.map((data) =>
             <option
-                key={data.id}
-                value={data.id}
+                key={data}
+                value={data}
             >
-                {data.name}
+                {data}
             </option>
         );
 
