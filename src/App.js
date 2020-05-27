@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
-import DropDown from './DropDown';
 import * as d3 from 'd3';
 import * as inputfile from "./all_stocks_5yr.csv";
-import DateRangePickerDropDown from './DateRangePickerDropDown'
+import DateRangePickerDropDown from './DateRangePickerDropDown';
+import "react-dates/initialize";
+import "react-dates/lib/css/_datepicker.css";
+import "./styles.css";
 
 class App extends Component {
     constructor(props) {
