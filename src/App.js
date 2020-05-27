@@ -44,16 +44,17 @@ class App extends Component {
 
     render() {
         return (
-            <div className="App">
+            <div className="app">
                 <header className="App-header">
                     <h1 className="App-title">Stock Visualizer</h1>
                 </header>
                 <div className="App-intro">
-                    <DropDown arrayOfData={this.state.stocks} onSelectChange={this.handleSelectChange}/> <br/><br/>
-                    <div>
-                        Selected Stock: {this.state.selectedValue}
+                    <div className="Stock-selection">
+                        <DropDown arrayOfData={this.state.stocks} onSelectChange={this.handleSelectChange}/> <br/><br/>
                     </div>
-                    <DateRangePickerDropDown/>
+                    <div className="DateRange-selection">
+                        <DateRangePickerDropDown/>
+                    </div>
                 </div>
             </div>
         );

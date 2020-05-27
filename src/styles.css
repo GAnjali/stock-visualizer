@@ -13,3 +13,21 @@
 * {
     box-sizing: border-box;
 }
+
+.App-intro{
+    width: 60%;
+    height: 50px;
+    background: aqua;
+    margin: auto;
+}
+
+.Stock-selection {
+    width: 15%;
+    float: left;
+    margin-left: 10%;
+}
+
+.DateRange-selection {
+    margin-right: 10%;
+    float: right;
+}
