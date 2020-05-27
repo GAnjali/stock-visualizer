@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import DropDown from './DropDown';
 import * as d3 from 'd3';
 import * as inputfile from "./all_stocks_5yr.csv";
 import DateRangePickerDropDown from './DateRangePickerDropDown';
@@ -48,6 +49,10 @@ class App extends Component {
                     <h1 className="App-title">Stock Visualizer</h1>
                 </header>
                 <div className="App-intro">
+                    <DropDown arrayOfData={this.state.stocks} onSelectChange={this.handleSelectChange}/> <br/><br/>
+                    <div>
+                        Selected Stock: {this.state.selectedValue}
+                    </div>
                     <DateRangePickerDropDown/>
                 </div>
             </div>

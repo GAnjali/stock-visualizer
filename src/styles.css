@@ -1,0 +1,15 @@
+.DateRangePickerInput_arrow {
+    width: 40px;
+}
+
+.DateInput_input {
+    cursor: pointer;
+}
+.app {
+    font-family: sans-serif;
+    text-align: center;
+}
+
+* {
+    box-sizing: border-box;
+}
