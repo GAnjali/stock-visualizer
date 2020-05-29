@@ -6,6 +6,7 @@ import DateRangePickerDropDown from './DateRangePickerDropDown';
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
 import "./styles.css";
+import Graph from "./Graph";
 
 class App extends Component {
     constructor(props) {
@@ -18,10 +19,9 @@ class App extends Component {
     }
 
     componentWillMount() {
-        const dateFormat = d3.timeParse("%Y-%m-%d");
         d3.csv(inputfile, function (d) {
             return {
-                date: dateFormat(d.date),
+                date: d.date,
                 open: d.open,
                 high: d.high,
                 low: d.low,
@@ -55,6 +55,9 @@ class App extends Component {
                     <div className="DateRange-selection">
                         <DateRangePickerDropDown/>
                     </div>
+                </div>
+                <div>
+                    <Graph data={this.state.arrayOfData}/>
                 </div>
             </div>
         );
