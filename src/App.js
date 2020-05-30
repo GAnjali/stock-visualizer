@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import DropDown from './DropDown';
 import * as d3 from 'd3';
-import * as inputfile from "./all_stocks_5yr.csv";
+import * as inputfile from "./XYZ.csv";
 import DateRangePickerDropDown from './DateRangePickerDropDown';
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
@@ -14,9 +14,10 @@ class App extends Component {
         super(props);
         this.state = {
             selectedStock: 'Nothing selected',
-            selectedStartDate: moment(),
-            selectedEndDate: moment(),
-            arrayOfData: [],
+            selectedStartDate: moment().subtract(7, "year").subtract(3, "month"),
+            selectedEndDate: moment().subtract(7, "year").subtract(3, "month"),
+            stockData: [],
+            filteredData: [],
             stocks: []
         }
     }
@@ -33,10 +34,25 @@ class App extends Component {
             };
         }).then(data => {
             this.setState({
-                arrayOfData: data,
+                stockData: data,
                 stocks: this.getStocks(data)
-            })
+            });
         });
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        let filteredData = null;
+        if (this.state.selectedStartDate !== prevState.selectedStartDate || this.state.selectedEndDate !== prevState.selectedEndDate) {
+            const inputData = this.state.stockData;
+            filteredData = inputData.filter((record) => {
+                    if (record.date >= this.state.selectedStartDate && record.date <= this.state.selectedEndDate)
+                        return record;
+                }
+            );
+            this.setState({
+                filteredData: filteredData
+            })
+        }
     }
 
     handleSelectStock = (selectedStock) => {
@@ -76,7 +92,8 @@ class App extends Component {
                     </div>
                 </div>
                 <div>
-                    <Graph data={this.state.arrayOfData}/>
+                    <Graph data={this.state.stockData} startDate={this.state.selectedStartDate}
+                           endDate={this.state.selectedEndDate}/>
                 </div>
             </div>
         );

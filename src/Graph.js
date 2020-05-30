@@ -1,52 +1,110 @@
 import * as d3 from 'd3';
-import React from "react";
+import React, {Component} from "react";
 
-const Graph = (props) => {
-    const width = 6000, height = 3000, margin = 50;
-    const dateFormat = d3.timeParse("%Y-%m-%d");
+class Graph extends Component {
 
-    if (props.data !== undefined && props.data.length > 0) {
-        const svg = d3.select("body")
-            .append("svg")
-            .attr("width", width)
-            .attr("height", height);
-        props.data.forEach(function (d) {
-            d.date = dateFormat(d.date);
-            d.close = +d.close;
-        });
-
-        const minPrice = d3.min(props.data.map(function (d) {
-                return d.close;
-            })),
-            maxPrice = d3.max(props.data.map(function (d) {
-                return d.close;
-            }));
-
-        const xScale = d3.scaleTime()
-            .range([margin, width - 100]);
-
-        const yScale = d3.scaleLinear()
-            .range([height - 100, margin]);
-
-        const xAxis = d3.axisBottom().scale(xScale)
-            .ticks(40);
-        const yAxis = d3.axisLeft().scale(yScale)
-            .ticks(30);
-
-        xScale.domain(d3.extent(props.data, function (d) {
-            return d.date;
-        }));
-        yScale.domain([minPrice, maxPrice]);
-
-        svg.append("g")
-            .attr("transform", "translate(0, " + (height - 100) + ")")
-            .call(xAxis);
-
-        svg.append("g")
-            .attr("transform", "translate(" + margin + ", 0)")
-            .call(yAxis);
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: this.props.data,
+            startDate: this.props.startDate,
+            endDate: this.props.endDate
+        }
     }
-    return <div></div>;
-};
+
+    componentDidMount() {
+        this.createGraph();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.startDate !== prevProps.startDate || this.state.startDate !== prevState.startDate)
+            this.createGraph();
+    }
+
+    createGraph = () => {
+        const width = 6000, height = 3000, margin = 50;
+        const dateFormat = d3.timeParse("%Y-%m-%d");
+
+        if (this.props.data !== undefined && this.props.data.length > 0) {
+            const svg = d3.select("body")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height);
+            this.props.data.forEach(function (d) {
+                d.date = dateFormat(d.date);
+                d.close = +d.close;
+            });
+
+            const minPrice = d3.min(this.props.data.map(function (d) {
+                    return d.close;
+                })),
+                maxPrice = d3.max(this.props.data.map(function (d) {
+                    return d.close;
+                }));
+
+            const xScale = d3.scaleTime()
+                .range([margin, width - 100]);
+
+            const yScale = d3.scaleLinear()
+                .range([height - 100, margin]);
+
+            const xAxis = d3.axisBottom().scale(xScale)
+                .ticks(40);
+            const yAxis = d3.axisLeft().scale(yScale)
+                .ticks(30);
+
+            xScale.domain(d3.extent(this.props.data, function (d) {
+                return d.date;
+            }));
+            yScale.domain([minPrice, maxPrice]);
+
+            svg.append("g")
+                .attr("transform", "translate(0, " + (height - 100) + ")")
+                .call(xAxis);
+
+            svg.append("g")
+                .attr("transform", "translate(" + margin + ", 0)")
+                .call(yAxis);
+
+            const getTime = (date) => {
+                if (date != null)
+                    return date.getTime();
+                else
+                    return null;
+            };
+
+            const getMax = (a, b) => {
+                return a < b ? b : a;
+            };
+
+            const getMin = (a, b) => {
+                return a < b ? a : b;
+            };
+
+            svg.selectAll("rect")
+                .data(this.props.data)
+                .enter().append("svg:rect")
+                .attr("x", (d) => {
+                    return xScale(getTime(d.date));
+                })
+                .attr("y", (d) => {
+                    return yScale(getMax(d.open, d.close));
+                })
+                .attr("height", (d) => {
+                    return yScale(getMin(d.open, d.close)) - yScale(getMax(d.open, d.close));
+                })
+                .attr("width", (d) => {
+                    return 0.5 * (width - 2 * margin) / this.state.data.length;
+                })
+                .attr("fill", (d) => {
+                    return d.open > d.close ? "red" : "green";
+                });
+        }
+    };
+
+    render() {
+        return <div></div>
+    }
+}
 
 export default Graph;
