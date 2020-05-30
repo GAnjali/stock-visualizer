@@ -22,7 +22,7 @@ class Graph extends Component {
     }
 
     createGraph = () => {
-        const width = 6000, height = 3000, margin = 50;
+        const width = 1300, height = 500, margin = 30;
         const dateFormat = d3.timeParse("%Y-%m-%d");
 
         if (this.props.data !== undefined && this.props.data.length > 0) {
@@ -49,9 +49,9 @@ class Graph extends Component {
                 .range([height - 100, margin]);
 
             const xAxis = d3.axisBottom().scale(xScale)
-                .ticks(40);
+                .ticks(15);
             const yAxis = d3.axisLeft().scale(yScale)
-                .ticks(30);
+                .ticks(20);
 
             xScale.domain(d3.extent(this.props.data, function (d) {
                 return d.date;
