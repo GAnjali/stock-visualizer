@@ -7,12 +7,15 @@ import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
 import "./styles.css";
 import Graph from "./Graph";
+import moment from "moment";
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedValue: 'Nothing selected',
+            selectedStock: 'Nothing selected',
+            selectedStartDate: moment(),
+            selectedEndDate: moment(),
             arrayOfData: [],
             stocks: []
         }
@@ -36,9 +39,21 @@ class App extends Component {
         });
     }
 
-    handleSelectChange = (selectedValue) => {
+    handleSelectStock = (selectedStock) => {
         this.setState({
-            selectedValue: selectedValue
+            selectedStock: selectedStock
+        });
+    };
+
+    handleSelectStartDate = (selectedStartDate) => {
+        this.setState({
+            selectedStartDate: selectedStartDate
+        });
+    };
+
+    handleSelectEndDate = (selectedEndDate) => {
+        this.setState({
+            selectedEndDate: selectedEndDate
         });
     };
 
@@ -50,10 +65,14 @@ class App extends Component {
                 </header>
                 <div className="App-intro">
                     <div className="Stock-selection">
-                        <DropDown arrayOfData={this.state.stocks} onSelectChange={this.handleSelectChange}/> <br/><br/>
+                        <DropDown arrayOfData={this.state.stocks} onSelectChange={this.handleSelectStock}/> <br/><br/>
                     </div>
                     <div className="DateRange-selection">
-                        <DateRangePickerDropDown/>
+                        <DateRangePickerDropDown
+                            startDate={this.state.selectedStartDate}
+                            endDate={this.state.selectedEndDate}
+                            handleSelectStartDate={this.handleSelectStartDate}
+                            handleSelectEndDate={this.handleSelectEndDate}/>
                     </div>
                 </div>
                 <div>
