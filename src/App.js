@@ -41,18 +41,7 @@ class App extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        let filteredData = null;
-        if (this.state.selectedStartDate !== prevState.selectedStartDate || this.state.selectedEndDate !== prevState.selectedEndDate) {
-            const inputData = this.state.stockData;
-            filteredData = inputData.filter((record) => {
-                    if (record.date >= this.state.selectedStartDate && record.date <= this.state.selectedEndDate)
-                        return record;
-                }
-            );
-            this.setState({
-                filteredData: filteredData
-            })
-        }
+
     }
 
     handleSelectStock = (selectedStock) => {
@@ -63,9 +52,23 @@ class App extends Component {
 
     handleSelectDate = (selectedStartDate, selectedEndDate) => {
         this.setState({
+            filteredData: this.getFilteredData(selectedStartDate, selectedEndDate),
             selectedStartDate: selectedStartDate,
             selectedEndDate: selectedEndDate
         });
+    };
+
+    getFilteredData = (selectedStartDate, selectedEndDate) => {
+        let filteredData = [];
+        const dateFormat = d3.timeParse("%Y-%m-%d");
+        const inputData = this.state.stockData;
+        const selectedStock = this.state.selectedStock;
+        filteredData = inputData.filter((record) => {
+                if (dateFormat(record.date) >= selectedStartDate && dateFormat(record.date) <= selectedEndDate && record.Name === selectedStock)
+                    return record;
+            }
+        );
+        return filteredData;
     };
 
     render() {
@@ -86,7 +89,7 @@ class App extends Component {
                     </div>
                 </div>
                 <div>
-                    <Graph data={this.state.stockData} startDate={this.state.selectedStartDate}
+                    <Graph data={this.state.filteredData} startDate={this.state.selectedStartDate}
                            endDate={this.state.selectedEndDate}/>
                 </div>
             </div>
