@@ -94,7 +94,7 @@ class Graph extends Component {
                     return yScale(getMin(d.open, d.close)) - yScale(getMax(d.open, d.close));
                 })
                 .attr("width", (d) => {
-                    return 0.5 * (width - 2 * margin) / this.state.data.length;
+                    return 0.5 * (width - 2 * margin) / this.props.data.length;
                 })
                 .attr("fill", (d) => {
                     return d.open > d.close ? "red" : "green";
