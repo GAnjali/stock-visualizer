@@ -9,8 +9,7 @@ class DateRangePickerDropDown extends Component {
     };
 
     handleDateChange = ({startDate, endDate}) => {
-        this.props.handleSelectStartDate(startDate);
-        this.props.handleSelectEndDate(endDate);
+        this.props.handleSelectDate(startDate, endDate);
     };
 
     handleFocusChange = focusedInput => this.setState({focusedInput});

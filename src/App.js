@@ -61,14 +61,9 @@ class App extends Component {
         });
     };
 
-    handleSelectStartDate = (selectedStartDate) => {
+    handleSelectDate = (selectedStartDate, selectedEndDate) => {
         this.setState({
-            selectedStartDate: selectedStartDate
-        });
-    };
-
-    handleSelectEndDate = (selectedEndDate) => {
-        this.setState({
+            selectedStartDate: selectedStartDate,
             selectedEndDate: selectedEndDate
         });
     };
@@ -87,8 +82,7 @@ class App extends Component {
                         <DateRangePickerDropDown
                             startDate={this.state.selectedStartDate}
                             endDate={this.state.selectedEndDate}
-                            handleSelectStartDate={this.handleSelectStartDate}
-                            handleSelectEndDate={this.handleSelectEndDate}/>
+                            handleSelectDate={this.handleSelectDate}/>
                     </div>
                 </div>
                 <div>
