@@ -17,7 +17,7 @@ class Graph extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.startDate !== prevProps.startDate || this.state.startDate !== prevState.startDate)
+        if (this.props.startDate !== prevProps.startDate || this.state.startDate !== prevState.startDate || this.props.stockName !== prevProps.stockName)
             this.createGraph();
     }
 

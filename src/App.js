@@ -14,8 +14,8 @@ class App extends Component {
         super(props);
         this.state = {
             selectedStock: 'Nothing selected',
-            selectedStartDate: moment().subtract(7, "year").subtract(3, "month"),
-            selectedEndDate: moment().subtract(7, "year").subtract(3, "month"),
+            selectedStartDate: moment().subtract(7, "year").subtract(4, "month"),
+            selectedEndDate: moment().subtract(2, "year").subtract(2, "month"),
             stockData: [],
             filteredData: [],
             stocks: []
@@ -40,32 +40,33 @@ class App extends Component {
         });
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-
-    }
-
     handleSelectStock = (selectedStock) => {
         this.setState({
+            filteredData: this.getFilteredData(selectedStock, this.state.selectedStartDate, this.state.selectedEndDate),
             selectedStock: selectedStock
         });
     };
 
     handleSelectDate = (selectedStartDate, selectedEndDate) => {
         this.setState({
-            filteredData: this.getFilteredData(selectedStartDate, selectedEndDate),
+            filteredData: this.getFilteredData(this.state.selectedStock, selectedStartDate, selectedEndDate),
             selectedStartDate: selectedStartDate,
             selectedEndDate: selectedEndDate
         });
     };
 
-    getFilteredData = (selectedStartDate, selectedEndDate) => {
+    getFilteredData(selectedStock, selectedStartDate, selectedEndDate) {
         let filteredData = [];
         const dateFormat = d3.timeParse("%Y-%m-%d");
         const inputData = this.state.stockData;
-        const selectedStock = this.state.selectedStock;
         filteredData = inputData.filter((record) => {
-                if (dateFormat(record.date) >= selectedStartDate && dateFormat(record.date) <= selectedEndDate && record.Name === selectedStock)
-                    return record;
+                if (typeof record.date === "string") {
+                    if (dateFormat(record.date) >= selectedStartDate && dateFormat(record.date) <= selectedEndDate && record.Name === selectedStock)
+                        return record;
+                } else {
+                    if (record.date >= selectedStartDate && record.date <= selectedEndDate && record.Name === selectedStock)
+                        return record;
+                }
             }
         );
         return filteredData;
@@ -90,7 +91,7 @@ class App extends Component {
                 </div>
                 <div>
                     <Graph data={this.state.filteredData} startDate={this.state.selectedStartDate}
-                           endDate={this.state.selectedEndDate}/>
+                           endDate={this.state.selectedEndDate} stockName={this.state.selectedStock}/>
                 </div>
             </div>
         );
