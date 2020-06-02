@@ -55,7 +55,7 @@ class Graph extends Component {
 
             const xAxis = d3.axisBottom().scale(xScale)
                 .ticks(15);
-            const yAxis = d3.axisLeft().scale(yScale)
+            const yAxis = d3.axisRight().scale(yScale)
                 .ticks(20);
 
             xScale.domain(d3.extent(data, function (d) {
@@ -68,7 +68,7 @@ class Graph extends Component {
                 .call(xAxis);
 
             svg.append("g")
-                .attr("transform", "translate(" + margin + ", 0)")
+                .attr("transform", "translate(" + (width - 100) + ", 0)")
                 .call(yAxis);
 
             const getTime = (date) => {
