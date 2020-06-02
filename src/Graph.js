@@ -17,8 +17,10 @@ class Graph extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.startDate !== prevProps.startDate || this.state.startDate !== prevState.startDate || this.props.stockName !== prevProps.stockName)
+        if (this.props.startDate !== prevProps.startDate || this.state.startDate !== prevState.startDate || this.props.endDate !== prevProps.endDate || this.state.endDate !== prevState.endDate || this.props.stockName !== prevProps.stockName) {
+            d3.select("svg").remove();
             this.createGraph();
+        }
     }
 
     createGraph = () => {
@@ -30,15 +32,18 @@ class Graph extends Component {
                 .append("svg")
                 .attr("width", width)
                 .attr("height", height);
-            this.props.data.forEach(function (d) {
+            const data = this.props.data.map(function (d) {
+                return Object.assign({}, d);
+            });
+            data.forEach(function (d) {
                 d.date = dateFormat(d.date);
                 d.close = +d.close;
             });
 
-            const minPrice = d3.min(this.props.data.map(function (d) {
+            const minPrice = d3.min(data.map(function (d) {
                     return d.close;
                 })),
-                maxPrice = d3.max(this.props.data.map(function (d) {
+                maxPrice = d3.max(data.map(function (d) {
                     return d.close;
                 }));
 
@@ -53,7 +58,7 @@ class Graph extends Component {
             const yAxis = d3.axisLeft().scale(yScale)
                 .ticks(20);
 
-            xScale.domain(d3.extent(this.props.data, function (d) {
+            xScale.domain(d3.extent(data, function (d) {
                 return d.date;
             }));
             yScale.domain([minPrice, maxPrice]);
@@ -67,10 +72,10 @@ class Graph extends Component {
                 .call(yAxis);
 
             const getTime = (date) => {
-                if (date != null)
+                if (typeof date === "string")
                     return date.getTime();
                 else
-                    return null;
+                    return date;
             };
 
             const getMax = (a, b) => {
@@ -82,7 +87,7 @@ class Graph extends Component {
             };
 
             svg.selectAll("rect")
-                .data(this.props.data)
+                .data(data)
                 .enter().append("svg:rect")
                 .attr("x", (d) => {
                     return xScale(getTime(d.date));
@@ -94,7 +99,7 @@ class Graph extends Component {
                     return yScale(getMin(d.open, d.close)) - yScale(getMax(d.open, d.close));
                 })
                 .attr("width", (d) => {
-                    return 0.5 * (width - 2 * margin) / this.props.data.length;
+                    return 0.5 * (width - 2 * margin) / data.length;
                 })
                 .attr("fill", (d) => {
                     return d.open > d.close ? "red" : "green";
