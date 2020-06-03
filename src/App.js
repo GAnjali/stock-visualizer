@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import DropDown from './DropDown';
 import * as d3 from 'd3';
-import * as inputfile from "./XYZ.csv";
+import * as inputfile from "./all_stocks_5yr.csv";
 import DateRangePickerDropDown from './DateRangePickerDropDown';
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
@@ -110,7 +110,7 @@ class App extends Component {
     };
 
     createGraph = () => {
-        const width = 1300, height = 500, margin = 30;
+        const width = 1300, height = 500, margin = 30, offset = 5;
         const dateFormat = d3.timeParse("%Y-%m-%d");
         const filterData = this.state.filteredData;
         const svg = d3.select("#graph svg");
@@ -131,6 +131,20 @@ class App extends Component {
                     return d.close;
                 }));
 
+            const minDate = this.state.selectedStartDate,
+                maxDate = this.state.selectedEndDate;
+
+            let minOffsetDate = d3.timeDay.offset(minDate, -offset);
+            let maxOffsetDate = d3.timeDay.offset(maxDate, +offset);
+            const dateDiff = maxDate-minDate;
+            if(dateDiff>2000000000){
+                minOffsetDate = d3.timeDay.offset(minDate, -offset);
+                maxOffsetDate = d3.timeDay.offset(maxDate, +offset);
+            } else if(dateDiff>3000000000){
+                minOffsetDate = d3.timeMonth.offset(minDate, -offset);
+                maxOffsetDate = d3.timeMonth.offset(maxDate, +offset);
+            }
+
             const xScale = d3.scaleTime()
                 .range([margin, width - 100]);
 
@@ -142,10 +156,8 @@ class App extends Component {
             const yAxis = d3.axisRight().scale(yScale)
                 .ticks(20);
 
-            xScale.domain(d3.extent(data, function (d) {
-                return d.date;
-            }));
-            yScale.domain([minPrice, maxPrice]);
+            xScale.domain([minOffsetDate, maxOffsetDate]);
+            yScale.domain([minPrice-offset, maxPrice+offset]);
 
             svg.append("g")
                 .attr("transform", "translate(0, " + (height - 100) + ")")
@@ -183,7 +195,7 @@ class App extends Component {
                     return yScale(getMin(d.open, d.close)) - yScale(getMax(d.open, d.close));
                 })
                 .attr("width", (d) => {
-                    return 0.5 * (width - 2 * margin) / data.length;
+                    return 0.3 * (width - 2 * margin) / data.length;
                 })
                 .attr("fill", (d) => {
                     return d.open > d.close ? "red" : "green";
