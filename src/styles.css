@@ -38,6 +38,11 @@
     opacity: 0.7;
 }
 
+#graph svg{
+    border:1px solid #d1cbcb;
+    margin: 30px;
+}
+
 #graph path {
     stroke-width: 0
 }

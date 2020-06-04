@@ -40,11 +40,12 @@ class App extends Component {
     }
 
     componentDidMount() {
-        const width = 1300, height = 500;
+        const width = 1200, height = 400;
         d3.select("#graph")
             .append("svg")
             .attr("width", width)
-            .attr("height", height);
+            .attr("height", height)
+            .attr("padding-top", 40)
     }
 
     handleSelectStock = (selectedStock) => {
@@ -110,7 +111,7 @@ class App extends Component {
     };
 
     createGraph = () => {
-        const width = 1300, height = 500, margin = 30, offset = 5;
+        const width = 1200, height = 400, margin = 30, offset = 5;
         const dateFormat = d3.timeParse("%Y-%m-%d");
         const filterData = this.state.filteredData;
         const svg = d3.select("#graph svg");
@@ -146,9 +147,9 @@ class App extends Component {
             }
 
             const xScale = d3.scaleTime()
-                .range([margin, width - 100]);
+                .range([0, width - 60]);
             const yScale = d3.scaleLinear()
-                .range([height - 100, margin]);
+                .range([height - 60, 0]);
 
             xScale.domain([minOffsetDate, maxOffsetDate]);
             yScale.domain([minPrice - offset, maxPrice + offset]);
@@ -166,28 +167,27 @@ class App extends Component {
 
             svg.append("g")
                 .attr("class", "xAxis")
-                .attr("transform", "translate(0, " + (height - 100) + ")")
+                .attr("transform", "translate(0, " + (height - margin) + ")")
                 .call(xAxis);
             svg.select(".xAxis").append("svg:line")
                 .style('stroke', 'black')
                 .attr('class', 'line')
                 .attr('x1', 0)
                 .attr('y1', 0)
-                .attr('x2', width - 100)
+                .attr('x2', width - margin)
                 .attr('y2', 0);
 
             svg.append("g")
                 .attr("class", "yAxis")
-                .attr("transform", "translate(" + (width - 100) + ", 0)")
+                .attr("transform", "translate(" + (width - margin) + ", 0)")
                 .call(yAxis);
-
             svg.select(".yAxis").append("svg:line")
                 .style('stroke', 'black')
                 .attr('class', 'line')
                 .attr('x1', 0)
                 .attr('y1', 0)
                 .attr('x2', 0)
-                .attr('y2', height - 100);
+                .attr('y2', height - margin);
 
             const getTime = (date) => {
                 if (typeof date === "string")
