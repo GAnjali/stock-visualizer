@@ -5,6 +5,7 @@
 .DateInput_input {
     cursor: pointer;
 }
+
 .app {
     font-family: sans-serif;
     text-align: center;
@@ -14,7 +15,7 @@
     box-sizing: border-box;
 }
 
-.App-intro{
+.App-intro {
     width: 60%;
     height: 50px;
     background: aqua;
@@ -30,4 +31,13 @@
 .DateRange-selection {
     margin-right: 10%;
     float: right;
+}
+
+#graph .tick line {
+    stroke: lightgrey;
+    opacity: 0.7;
+}
+
+#graph path {
+    stroke-width: 0
 }

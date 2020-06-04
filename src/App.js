@@ -136,36 +136,58 @@ class App extends Component {
 
             let minOffsetDate = d3.timeDay.offset(minDate, -offset);
             let maxOffsetDate = d3.timeDay.offset(maxDate, +offset);
-            const dateDiff = maxDate-minDate;
-            if(dateDiff>2000000000){
-                minOffsetDate = d3.timeDay.offset(minDate, -offset);
-                maxOffsetDate = d3.timeDay.offset(maxDate, +offset);
-            } else if(dateDiff>3000000000){
+            const dateDiff = maxDate - minDate;
+            if (dateDiff % 30000000000 <= 1) {
                 minOffsetDate = d3.timeMonth.offset(minDate, -offset);
                 maxOffsetDate = d3.timeMonth.offset(maxDate, +offset);
+            } else if (dateDiff > 2000000000) {
+                minOffsetDate = d3.timeDay.offset(minDate, -offset);
+                maxOffsetDate = d3.timeDay.offset(maxDate, +offset);
             }
 
             const xScale = d3.scaleTime()
                 .range([margin, width - 100]);
-
             const yScale = d3.scaleLinear()
                 .range([height - 100, margin]);
 
+            xScale.domain([minOffsetDate, maxOffsetDate]);
+            yScale.domain([minPrice - offset, maxPrice + offset]);
+
             const xAxis = d3.axisBottom().scale(xScale)
+                .tickSizeInner(-height)
+                .tickSizeOuter(0)
+                .tickPadding(10)
                 .ticks(15);
             const yAxis = d3.axisRight().scale(yScale)
-                .ticks(20);
-
-            xScale.domain([minOffsetDate, maxOffsetDate]);
-            yScale.domain([minPrice-offset, maxPrice+offset]);
+                .tickSizeInner(-width)
+                .tickSizeOuter(0)
+                .tickPadding(10)
+                .ticks(15);
 
             svg.append("g")
+                .attr("class", "xAxis")
                 .attr("transform", "translate(0, " + (height - 100) + ")")
                 .call(xAxis);
+            svg.select(".xAxis").append("svg:line")
+                .style('stroke', 'black')
+                .attr('class', 'line')
+                .attr('x1', 0)
+                .attr('y1', 0)
+                .attr('x2', width - 100)
+                .attr('y2', 0);
 
             svg.append("g")
+                .attr("class", "yAxis")
                 .attr("transform", "translate(" + (width - 100) + ", 0)")
                 .call(yAxis);
+
+            svg.select(".yAxis").append("svg:line")
+                .style('stroke', 'black')
+                .attr('class', 'line')
+                .attr('x1', 0)
+                .attr('y1', 0)
+                .attr('x2', 0)
+                .attr('y2', height - 100);
 
             const getTime = (date) => {
                 if (typeof date === "string")
