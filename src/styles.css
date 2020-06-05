@@ -18,7 +18,7 @@
 .App-intro {
     width: 60%;
     height: 50px;
-    background: aqua;
+    background: #838784;
     margin: auto;
 }
 
@@ -29,6 +29,7 @@
 }
 
 .DateRange-selection {
+    margin-top: 0.1%;
     margin-right: 10%;
     float: right;
 }
