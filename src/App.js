@@ -167,8 +167,15 @@ class App extends Component {
 
             svg.append("g")
                 .attr("class", "xAxis")
-                .attr("transform", "translate(0, " + (height - margin) + ")")
-                .call(xAxis);
+                .attr("transform", "translate(0, " + (height - 50) + ")")
+                .call(xAxis)
+                .append("text")
+                .attr("y", margin + 10)
+                .attr("x", width / 2)
+                .attr("text-anchor", "end")
+                .attr("font-size", "16")
+                .style("fill", "black")
+                .text("Date");
             svg.select(".xAxis").append("svg:line")
                 .style('stroke', 'black')
                 .attr('class', 'line')
@@ -179,8 +186,16 @@ class App extends Component {
 
             svg.append("g")
                 .attr("class", "yAxis")
-                .attr("transform", "translate(" + (width - margin) + ", 0)")
-                .call(yAxis);
+                .attr("transform", "translate(" + (width - 50) + ", 0)")
+                .call(yAxis)
+                .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", margin + 10)
+                .attr("x", -150)
+                .attr("text-anchor", "end")
+                .attr("font-size", "16")
+                .style("fill", "black")
+                .text("Stock Price");
             svg.select(".yAxis").append("svg:line")
                 .style('stroke', 'black')
                 .attr('class', 'line')
