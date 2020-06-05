@@ -46,3 +46,15 @@
 #graph path {
     stroke-width: 0
 }
+.custom-search-select {
+    margin-top: 5px;
+    height: 40px;
+    overflow-y: scroll;
+    width: 150px;
+    max-height: 150px;
+}
+
+#stock-selection {
+    width: 150px;
+    margin: 6px;
+}
