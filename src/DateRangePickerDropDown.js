@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import {DateRangePicker} from "react-dates";
 import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
+import "./react_dates_overrides.css"
 import "./styles.css";
 
 class DateRangePickerDropDown extends Component {
