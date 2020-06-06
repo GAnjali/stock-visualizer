@@ -39,15 +39,6 @@ class App extends Component {
         });
     }
 
-    componentDidMount() {
-        const width = 1200, height = 400;
-        d3.select("#graph")
-            .append("svg")
-            .attr("width", width)
-            .attr("height", height)
-            .attr("padding-top", 40)
-    }
-
     handleSelectStock = (selectedStock) => {
         this.setState({
             filteredData: this.getFilteredData(selectedStock, this.state.selectedStartDate, this.state.selectedEndDate),
@@ -114,9 +105,13 @@ class App extends Component {
         const width = 1200, height = 400, margin = 30, offset = 5;
         const dateFormat = d3.timeParse("%Y-%m-%d");
         const filterData = this.state.filteredData;
-        const svg = d3.select("#graph svg");
-        svg.selectAll('*').remove();
+        d3.select("#graph svg").remove();
         if (filterData !== undefined && filterData.length > 0) {
+            const svg = d3.select("#graph")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .attr("padding-top", 40);
             const data = filterData.map(function (d) {
                 return Object.assign({}, d);
             });
