@@ -75,12 +75,14 @@ class App extends Component {
         return (
             <div className="app">
                 <header className="App-header">
-                    <h1 className="App-title">Stock Visualizer</h1>
+                    <h2 className="App-title">Stock Visualizer</h2>
                 </header>
                 <div className="App-intro">
+                    <h3 className={"stock-title"}>Stock:</h3>
                     <div className="Stock-selection">
                         <DropDown arrayOfData={this.state.stocks} onSelectChange={this.handleSelectStock}/> <br/><br/>
                     </div>
+                    <h3 className={"date-range-title"}>Date Range:</h3>
                     <div className="DateRange-selection">
                         <DateRangePickerDropDown
                             startDate={this.state.selectedStartDate}
