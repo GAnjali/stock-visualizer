@@ -12,7 +12,7 @@
     "d3": "^5.16.0",
     "moment": "^2.26.0",
     "react": "^16.13.1",
-    "react-dates": "^21.8.0",
+    "react-dates": "^18.1.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
     "react-select": "^3.1.0",

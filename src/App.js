@@ -104,7 +104,7 @@ class App extends Component {
     };
 
     createGraph = () => {
-        const width = 1200, height = 400, margin = 30, offset = 5;
+        const width = 1200, height = 350, margin = 30, offset = 5;
         const dateFormat = d3.timeParse("%Y-%m-%d");
         const filterData = this.state.filteredData;
         d3.select("#graph svg").remove();
@@ -234,6 +234,38 @@ class App extends Component {
                 .attr("fill", (d) => {
                     return d.open > d.close ? "red" : "green";
                 });
+
+            const medianAvgPrice = d3.mean(data.map((d) => {
+                return d.high + d.low / 2
+            }));
+
+            const medianLine = svg.append("g")
+                .attr("transform", function (d, i) {
+                    return "translate(0," + i * medianAvgPrice + ")";
+                });
+            medianLine.append("svg:line")
+                .style('stroke', '#63c98c')
+                .attr('class', 'line')
+                .attr('x1', 0)
+                .attr('y1', yScale(medianAvgPrice))
+                .attr('x2', width - margin - 20)
+                .attr('y2', yScale(medianAvgPrice));
+            medianLine.append("rect")
+                .attr("class", "median")
+                .attr("x", width - margin - 20)
+                .attr("y", yScale(medianAvgPrice + 1))
+                .attr("height", 12)
+                .attr("width", 30)
+                .attr("fill", "#63c98c");
+
+            medianLine.append("text")
+                .attr("x", width - margin - 20)
+                .attr("y", yScale(medianAvgPrice + 1))
+                .attr("dy", "1em")
+                .attr("font-size", "xx-small")
+                .attr("text-align", "center")
+                .attr("color", "white")
+                .text(medianAvgPrice.toFixed(2));
         }
     };
 }
