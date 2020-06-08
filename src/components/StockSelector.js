@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 
-const DropDown = (props) => {
+const StockSelector = (props) => {
     let arrayOfData = props.arrayOfData;
     let options = arrayOfData.map((data) => {
             return {value: data, label: data}
@@ -30,4 +30,4 @@ const DropDown = (props) => {
     )
 };
 
-export default DropDown;
+export default StockSelector;

@@ -2,10 +2,10 @@ import React, {Component} from "react";
 import {DateRangePicker} from "react-dates";
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
-import "./react_dates_overrides.css"
-import "./styles.css";
+import "../styles/react_dates_overrides.css"
+import "../styles/styles.css";
 
-class DateRangePickerDropDown extends Component {
+class DateRangeSelector extends Component {
     state = {
         focusedInput: null
     };
@@ -32,4 +32,4 @@ class DateRangePickerDropDown extends Component {
     }
 }
 
-export default DateRangePickerDropDown;
+export default DateRangeSelector;

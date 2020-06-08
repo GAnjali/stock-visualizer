@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import DropDown from './DropDown';
+import StockSelector from './StockSelector';
 import * as d3 from 'd3';
-import * as inputfile from "./all_stocks_5yr.csv";
-import DateRangePickerDropDown from './DateRangePickerDropDown';
+import * as inputfile from "../data/all_stocks_5yr.csv";
+import DateRangeSelector from './DateRangeSelector';
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
-import "./styles.css";
+import "../styles/styles.css";
 import moment from "moment";
 
 class App extends Component {
@@ -80,11 +80,11 @@ class App extends Component {
                 <div className="App-intro">
                     <h3 className={"stock-title"}>Stock:</h3>
                     <div className="Stock-selection">
-                        <DropDown arrayOfData={this.state.stocks} onSelectChange={this.handleSelectStock}/> <br/><br/>
+                        <StockSelector arrayOfData={this.state.stocks} onSelectChange={this.handleSelectStock}/> <br/><br/>
                     </div>
                     <h3 className={"date-range-title"}>Date Range:</h3>
                     <div className="DateRange-selection">
-                        <DateRangePickerDropDown
+                        <DateRangeSelector
                             startDate={this.state.selectedStartDate}
                             endDate={this.state.selectedEndDate}
                             handleSelectDate={this.handleSelectDate}/>
