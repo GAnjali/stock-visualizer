@@ -235,8 +235,8 @@ class App extends Component {
                     return d.open > d.close ? "red" : "green";
                 });
 
-            const medianAvgPrice = d3.mean(data.map((d) => {
-                return d.high + d.low / 2
+            const medianAvgPrice = d3.median(data.map((d) => {
+                return parseInt(d.high + d.low / 2)
             }));
 
             const medianLine = svg.append("g")
