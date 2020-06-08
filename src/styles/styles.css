@@ -79,7 +79,7 @@
 
 .input-label {
     float: left;
-    margin-left: 8%;
+    margin-left: 4%;
     margin-top: 1.2%;
 }
 
@@ -87,5 +87,16 @@
     width: 15%;
     float: left;
     margin-top: 1.2%;
+    margin-left: 0.5%;
+}
+
+.date-picker-label{
+    float: left;
+    margin-left: 4%;
+    margin-top: 1.2%;
+}
+
+.date-picker{
+    float: left;
     margin-left: 0.5%;
 }

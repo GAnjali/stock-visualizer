@@ -3,13 +3,16 @@ import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
 import "../../styles/styles.css";
 import ValueForm from "./ValueForm";
+import moment from "moment";
+import DatePicker from "./DatePicker";
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             amountToInvest: '',
-            stockPercentage: ''
+            stockPercentage: '',
+            date: moment()
         }
     }
 
@@ -20,6 +23,12 @@ class App extends Component {
                 [event.target.name]: event.target.value
             });
         }
+    };
+
+    handleDateChange = (date) => {
+        this.setState({
+            date: date
+        })
     };
 
     render() {
@@ -35,6 +44,7 @@ class App extends Component {
                     <ValueForm amountToInvest={this.state.stockPercentage} label={"Percentage of stock:"}
                                name={"stockPercentage"}
                                placeholder={"Enter the Percentage of stock"} handleChange={this.handleAmountInput}/>
+                    <DatePicker date={this.state.date} handleDateChange={this.handleDateChange}/>
                 </div>
             </div>
         )
