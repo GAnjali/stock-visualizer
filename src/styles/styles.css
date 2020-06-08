@@ -72,3 +72,20 @@
     width: 150px;
     margin: 6px;
 }
+
+#amount-textInput {
+    width: 150px;
+}
+
+.input-label {
+    float: left;
+    margin-left: 8%;
+    margin-top: 1.2%;
+}
+
+.text-input {
+    width: 15%;
+    float: left;
+    margin-top: 1.2%;
+    margin-left: 0.5%;
+}
