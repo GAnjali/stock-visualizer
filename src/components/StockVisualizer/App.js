@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import StockSelector from './StockSelector';
 import * as d3 from 'd3';
-import * as inputfile from "../data/all_stocks_5yr.csv";
+import * as inputfile from "../../data/all_stocks_5yr.csv";
 import DateRangeSelector from './DateRangeSelector';
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
-import "../styles/styles.css";
+import "../../styles/styles.css";
 import moment from "moment";
 
 class App extends Component {

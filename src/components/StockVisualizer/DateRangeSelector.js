@@ -2,8 +2,8 @@ import React, {Component} from "react";
 import {DateRangePicker} from "react-dates";
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
-import "../styles/react_dates_overrides.css"
-import "../styles/styles.css";
+import "../../styles/react_dates_overrides.css"
+import "../../styles/styles.css";
 
 class DateRangeSelector extends Component {
     state = {
