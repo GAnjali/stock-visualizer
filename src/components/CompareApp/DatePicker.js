@@ -21,7 +21,7 @@ class DatePicker extends Component {
                     onDateChange={this.props.handleDateChange}
                     focused={this.state.focusedInput}
                     onFocusChange={this.handleFocusChange}
-                    className={"date-picker"}
+                    id={"date-picker"}
                 />
             </div>
         )
