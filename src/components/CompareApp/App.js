@@ -108,8 +108,9 @@ class App extends Component {
     }
 
     getFilteredStocksData = (filteredStocksNames) => {
+        const dateFormat = d3.timeParse("%Y-%m-%d");
         return this.state.stockData.filter((stock) => {
-            return filteredStocksNames.includes(stock.Name)
+            return filteredStocksNames.includes(stock.Name) && dateFormat(stock.date) >= this.state.date;
         });
     };
 
