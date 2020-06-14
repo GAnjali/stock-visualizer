@@ -79,12 +79,11 @@
 
 .input-label {
     float: left;
-    margin-left: 4%;
     margin-top: 1.2%;
 }
 
 .text-input {
-    width: 15%;
+    width: 10%;
     float: left;
     margin-top: 1.2%;
     margin-left: 0.5%;
@@ -92,11 +91,40 @@
 
 .date-picker-label{
     float: left;
-    margin-left: 4%;
+    margin-left: 2%;
     margin-top: 1.2%;
 }
 
 .date-picker{
     float: left;
     margin-left: 0.5%;
+}
+
+.amount-value-form {
+    margin-left: 4%
+}
+
+.percentage-value-form .input-label{
+    margin-left: 2%;
+}
+
+.single-date-picker{
+    float: left;
+    margin-left: 1%;
+}
+
+.multiple-stock-selector {
+    float: left;
+}
+
+.multiple-stock-selector .select-stocks-title{
+    float: left;
+    margin-left: 80%;
+}
+
+.multiple-stock-selector .multi-stock-selection{
+    margin-left: 9%;
+    width: 20%;
+    float: left;
+    position: absolute;
 }
