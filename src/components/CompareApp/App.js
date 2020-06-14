@@ -7,6 +7,7 @@ import moment from "moment";
 import DatePicker from "./DatePicker";
 import * as d3 from "d3";
 import * as inputfile from "../../data/all_stocks_5yr.csv";
+import MultipleStockSelector from "./MultipleStockSelector";
 
 class App extends Component {
     constructor(props) {
@@ -16,7 +17,8 @@ class App extends Component {
             stockPercentage: '',
             date: moment(),
             stockData: [],
-            stocks: []
+            stocks: [],
+            selectedStocks: []
         }
     }
 
@@ -33,6 +35,18 @@ class App extends Component {
         this.setState({
             date: date
         }, this.renderGraph);
+    };
+
+    handleSelectStock = (selectedStocks) => {
+        console.log(selectedStocks);
+        console.log();
+        this.setState({
+            selectedStocks: selectedStocks.map((stock) => {
+                return stock.value;
+            })
+        }, () => {
+            this.renderGraph();
+        })
     };
 
     componentWillMount() {
@@ -85,6 +99,8 @@ class App extends Component {
                                placeholder={"Enter the Percentage of stock"} handleChange={this.handleAmountInput}/>
                     <DatePicker date={this.state.date}
                                 handleDateChange={this.handleDateChange}/>
+                    <MultipleStockSelector arrayOfData={this.state.stocks}
+                                           onSelectChange={this.handleSelectStock}/>
                 </div>
             </div>
         )
