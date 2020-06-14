@@ -7,22 +7,30 @@ import "../../styles/styles.css";
 
 class DatePicker extends Component {
     state = {
-        focusedInput: null,
+        focusedInput: false,
     };
 
-    handleFocusChange = focusedInput => this.setState({focusedInput});
+    handleFocusChange = () => this.setState({focusedInput: true});
+
+    handleDateChange = (date) => {
+        this.setState({
+            focusedInput: false
+        }, this.props.handleDateChange(date));
+    };
 
     render() {
         return (
             <div>
                 <h3 className={"date-picker-label"}>{"Select Date:"}</h3>
-                <SingleDatePicker
-                    date={this.props.date}
-                    onDateChange={this.props.handleDateChange}
-                    focused={this.state.focusedInput}
-                    onFocusChange={this.handleFocusChange}
-                    id={"date-picker"}
-                />
+                <div className={"single-date-picker"}>
+                    <SingleDatePicker
+                        date={this.props.date}
+                        onDateChange={this.handleDateChange}
+                        focused={this.state.focusedInput}
+                        onFocusChange={this.handleFocusChange}
+                        numberOfMonths={1}
+                    />
+                </div>
             </div>
         )
     }
