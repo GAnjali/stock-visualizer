@@ -38,8 +38,6 @@ class App extends Component {
     };
 
     handleSelectStock = (selectedStocks) => {
-        console.log(selectedStocks);
-        console.log();
         this.setState({
             selectedStocks: selectedStocks.map((stock) => {
                 return stock.value;
@@ -50,7 +48,6 @@ class App extends Component {
     };
 
     componentWillMount() {
-        console.log("will mount");
         d3.csv(inputfile, function (d) {
             return {
                 date: d.date,
@@ -77,8 +74,12 @@ class App extends Component {
     };
 
     renderGraph() {
-        if (this.state.date != null && this.state.amountToInvest != null && this.state.stockPercentage != null) {
-            console.log("rendering graph");
+        if (this.state.date !== null && this.state.amountToInvest !== null && this.state.stockPercentage !== null && this.state.selectedStocks.length !== 0) {
+
+            const selectedStocksData = this.getFilteredStocksData(this.state.selectedStocks);
+
+            const unSelectedStocks = this.getUnSelectedStockNames();
+            const nonSelectedStockData = this.getFilteredStocksData(unSelectedStocks);
         }
     }
 
@@ -104,6 +105,18 @@ class App extends Component {
                 </div>
             </div>
         )
+    }
+
+    getFilteredStocksData = (filteredStocksNames) => {
+        return this.state.stockData.filter((stock) => {
+            return filteredStocksNames.includes(stock.Name)
+        });
+    };
+
+    getUnSelectedStockNames() {
+        return this.state.stocks.filter((stockName) => {
+            return !this.state.selectedStocks.includes(stockName);
+        })
     }
 }
 
