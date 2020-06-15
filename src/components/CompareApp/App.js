@@ -8,6 +8,7 @@ import DatePicker from "./DatePicker";
 import * as d3 from "d3";
 import * as inputfile from "../../data/all_stocks_5yr.csv";
 import MultipleStockSelector from "./MultipleStockSelector";
+import createGraph from "./Graph";
 
 class App extends Component {
     constructor(props) {
@@ -75,11 +76,14 @@ class App extends Component {
 
     renderGraph() {
         if (this.state.date !== null && this.state.amountToInvest !== null && this.state.stockPercentage !== null && this.state.selectedStocks.length !== 0) {
-
             const selectedStocksData = this.getFilteredStocksData(this.state.selectedStocks);
 
             const unSelectedStocks = this.getUnSelectedStockNames();
-            const nonSelectedStockData = this.getFilteredStocksData(unSelectedStocks);
+            const unSelectedStocksData = this.getFilteredStocksData(unSelectedStocks);
+
+            const startDate = moment().subtract(7, "year").subtract(4, "month");
+            const endDate = moment().subtract(2, "year").subtract(2, "month");
+            createGraph(selectedStocksData, unSelectedStocksData, startDate, endDate);
         }
     }
 
@@ -102,6 +106,7 @@ class App extends Component {
                                 handleDateChange={this.handleDateChange}/>
                     <MultipleStockSelector arrayOfData={this.state.stocks}
                                            onSelectChange={this.handleSelectStock}/>
+                    <div id={"graph"}/>
                 </div>
             </div>
         )
