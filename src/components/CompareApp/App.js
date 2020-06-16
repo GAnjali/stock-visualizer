@@ -13,12 +13,12 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            amountToInvest: '',
-            stockPercentage: '',
+            amountToInvest: null,
             date: moment(),
             stockData: [],
             stocks: [],
-            selectedStocks: []
+            mfStockNames: [],
+            mfStockPercentages: []
         }
     }
 
@@ -38,7 +38,30 @@ class App extends Component {
     };
 
     componentWillMount() {
-        console.log(process.env.REACT_APP_STOCKS_PERCENTAGES);
+        this.readConfigData();
+        this.readStocksData();
+    }
+
+    componentDidMount() {
+        this.renderGraph();
+    }
+
+    readConfigData = () => {
+        const mfStocks = process.env.REACT_APP_STOCKS_PERCENTAGES.split(",");
+        const mfStockNames = [];
+        const mfStockPercentages = [];
+        mfStocks.map((mfStock) => {
+            const stocksValues = mfStock.split(':');
+            mfStockNames.push(stocksValues[0]);
+            mfStockPercentages.push(stocksValues[1]);
+        });
+        this.setState({
+            mfStockNames: mfStockNames,
+            mfStockPercentages: mfStockPercentages
+        });
+    };
+
+    readStocksData() {
         d3.csv(inputfile, function (d) {
             return {
                 date: d.date,
@@ -52,7 +75,7 @@ class App extends Component {
             this.setState({
                 stockData: data,
                 stocks: this.getStocks(data)
-            });
+            }, this.renderGraph);
         });
     }
 
@@ -65,15 +88,15 @@ class App extends Component {
     };
 
     renderGraph() {
-        if (this.state.date !== null && this.state.amountToInvest !== null && this.state.stockPercentage !== null && this.state.selectedStocks.length !== 0) {
-            const selectedStocksData = this.getFilteredStocksData(this.state.selectedStocks);
+        if (this.state.date !== null && this.state.amountToInvest !== null && this.state.mfStockNames.length !== 0) {
+            const mfStocksData = this.getFilteredStocksData(this.state.mfStockNames);
 
-            const unSelectedStocks = this.getUnSelectedStockNames();
-            const unSelectedStocksData = this.getFilteredStocksData(unSelectedStocks);
+            const nonMfStocksNames = this.getNonMfStockNames();
+            const nonMfStocksData = this.getFilteredStocksData(nonMfStocksNames);
 
             const startDate = moment().subtract(7, "year").subtract(4, "month");
             const endDate = moment().subtract(2, "year").subtract(2, "month");
-            createGraph(selectedStocksData, unSelectedStocksData, startDate, endDate);
+            createGraph(mfStocksData, nonMfStocksData, startDate, endDate);
         }
     }
 
@@ -103,9 +126,9 @@ class App extends Component {
         });
     };
 
-    getUnSelectedStockNames() {
+    getNonMfStockNames() {
         return this.state.stocks.filter((stockName) => {
-            return !this.state.selectedStocks.includes(stockName);
+            return !this.state.mfStockNames.includes(stockName);
         })
     }
 }
