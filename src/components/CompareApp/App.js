@@ -49,6 +49,7 @@ class App extends Component {
     };
 
     componentWillMount() {
+        console.log(process.env.REACT_APP_STOCKS_PERCENTAGES);
         d3.csv(inputfile, function (d) {
             return {
                 date: d.date,
