@@ -7,7 +7,6 @@ import moment from "moment";
 import DatePicker from "./DatePicker";
 import * as d3 from "d3";
 import * as inputfile from "../../data/all_stocks_5yr.csv";
-import MultipleStockSelector from "./MultipleStockSelector";
 import createGraph from "./Graph";
 
 class App extends Component {
@@ -36,16 +35,6 @@ class App extends Component {
         this.setState({
             date: date
         }, this.renderGraph);
-    };
-
-    handleSelectStock = (selectedStocks) => {
-        this.setState({
-            selectedStocks: selectedStocks.map((stock) => {
-                return stock.value;
-            })
-        }, () => {
-            this.renderGraph();
-        })
     };
 
     componentWillMount() {
@@ -99,14 +88,8 @@ class App extends Component {
                                label={"Amount to invest:"}
                                name={"amountToInvest"}
                                placeholder={"Enter the Amount"} handleChange={this.handleAmountInput}/>
-                    <ValueForm className={"percentage-value-form"} amountToInvest={this.state.stockPercentage}
-                               label={"Percentage of stock:"}
-                               name={"stockPercentage"}
-                               placeholder={"Enter the Percentage of stock"} handleChange={this.handleAmountInput}/>
                     <DatePicker date={this.state.date}
                                 handleDateChange={this.handleDateChange}/>
-                    <MultipleStockSelector arrayOfData={this.state.stocks}
-                                           onSelectChange={this.handleSelectStock}/>
                     <div id={"graph"}/>
                 </div>
             </div>
