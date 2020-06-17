@@ -14,7 +14,7 @@ class App extends Component {
         super(props);
         this.state = {
             amountToInvest: null,
-            date: moment(),
+            date: moment().subtract(7, "year").subtract(4, "month"),
             stockData: [],
             stocks: [],
             mfStockNames: [],
@@ -52,8 +52,8 @@ class App extends Component {
         const mfStockPercentages = [];
         mfStocks.map((mfStock) => {
             const stocksValues = mfStock.split(':');
-            mfStockNames.push(stocksValues[0]);
-            mfStockPercentages.push(stocksValues[1]);
+            mfStockNames.push(stocksValues[0].trim());
+            mfStockPercentages.push(stocksValues[1].trim());
         });
         this.setState({
             mfStockNames: mfStockNames,
@@ -90,7 +90,6 @@ class App extends Component {
     renderGraph() {
         if (this.state.date !== null && this.state.amountToInvest !== null && this.state.mfStockNames.length !== 0) {
             const mfStocksData = this.getFilteredStocksData(this.state.mfStockNames);
-
             const nonMfStocksNames = this.getNonMfStockNames();
             const nonMfStocksData = this.getFilteredStocksData(nonMfStocksNames);
 
@@ -119,12 +118,30 @@ class App extends Component {
         )
     }
 
-    getFilteredStocksData = (filteredStocksNames) => {
-        const dateFormat = d3.timeParse("%Y-%m-%d");
-        return this.state.stockData.filter((stock) => {
-            return filteredStocksNames.includes(stock.Name) && dateFormat(stock.date) >= this.state.date;
+    getFilteredStocksData = (stocksNames) => {
+        const filteredStocksMap = {};
+        stocksNames.map((stockName) => {
+            filteredStocksMap[stockName] = this.getOpenPricesByDay(stockName);
         });
+        return filteredStocksMap;
     };
+
+    getOpenPricesByDay(stockName) {
+        const openPriceByDay = {};
+        this.state.stockData.map((stock) => {
+            if (stock.Name === stockName && this.getFormattedDate(stock.date) > this.state.date) {
+                openPriceByDay[stock.date] = stock.open;
+            }
+        });
+        return openPriceByDay;
+    }
+
+    getFormattedDate(date) {
+        const dateFormat = d3.timeParse("%Y-%m-%d");
+        if (typeof date === "string")
+            return dateFormat(date);
+        return date;
+    }
 
     getNonMfStockNames() {
         return this.state.stocks.filter((stockName) => {
