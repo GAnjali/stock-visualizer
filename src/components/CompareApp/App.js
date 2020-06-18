@@ -119,18 +119,18 @@ class App extends Component {
     }
 
     getFilteredStocksData = (stocksNames) => {
-        const filteredStocksMap = {};
+        const filteredStocksMap = new Map();
         stocksNames.map((stockName) => {
-            filteredStocksMap[stockName] = this.getOpenPricesByDay(stockName);
+            filteredStocksMap.set(stockName, this.getOpenPricesByDay(stockName));
         });
         return filteredStocksMap;
     };
 
     getOpenPricesByDay(stockName) {
-        const openPriceByDay = {};
+        const openPriceByDay = new Map();
         this.state.stockData.map((stock) => {
             if (stock.Name === stockName && this.getFormattedDate(stock.date) > this.state.date) {
-                openPriceByDay[stock.date] = stock.open;
+                openPriceByDay.set(stock.date, stock.open);
             }
         });
         return openPriceByDay;
