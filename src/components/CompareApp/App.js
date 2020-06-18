@@ -94,30 +94,37 @@ class App extends Component {
             const nonMfStocksData = this.getFilteredStocksData(nonMfStocksNames);
 
             const startDate = moment().subtract(7, "year").subtract(4, "month");
-            const endDate = moment().subtract(2, "year").subtract(2, "month");
+            const endDate = moment().subtract(7, "year").subtract(2, "month");
             const mfStocksPorLPercentagesByDay = this.getPorLPercentagesByDay(this.state.mfStockNames, mfStocksData, this.state.date, endDate);
             createGraph(mfStocksData, nonMfStocksData, startDate, endDate);
         }
     }
 
     getPorLPercentagesByDay(stocksNames, stocksData, startDate, endDate) {
+        const percentagesByDay = new Map();
+        let currentDate = Object.assign({}, startDate);
         const boughtPricesForStocks = this.getBoughtPricesPerStock(stocksData);
+        while (moment(currentDate).isBefore(moment(endDate))) {
+            percentagesByDay.set(moment(currentDate).format("YYYY-MM-DD"), this.getPercentage(currentDate, boughtPricesForStocks, stocksNames, stocksData));
+            currentDate = this.getNextDay(currentDate);
+        }
+        return percentagesByDay;
     }
 
     getBoughtPricesPerStock(stocksData) {
         const boughtPricesPerStock = new Map();
         Array.from(stocksData.keys()).map((stockName) => {
-            boughtPricesPerStock.set(stockName, this.getBoughtPrice(stocksData.get(stockName)))
+            boughtPricesPerStock.set(stockName, this.getPrice(this.state.date, stocksData.get(stockName)))
         });
         return boughtPricesPerStock;
     }
 
-    getBoughtPrice(stockData) {
-        let presentDay = this.state.date;
+    getPrice(date, stockData) {
+        let presentDay = date;
         let boughtPrice = null;
         const dateFormat = d3.timeParse("%Y-%m-%d");
         do {
-            const nextDay = this.getNextDay(presentDay);
+            const nextDay = this.getNextDay(presentDay).format("YYYY-MM-DD");
             boughtPrice = stockData.get(nextDay);
             presentDay = moment(dateFormat(nextDay));
         } while (boughtPrice === undefined);
@@ -126,8 +133,21 @@ class App extends Component {
 
     getNextDay = (date) => {
         const day = Object.assign({}, date);
-        return moment(day).add(1, "days").format("YYYY-MM-DD");
+        return moment(day).add(1, "days");
     };
+
+    getPercentage(date, boughtPrices, stockNames, stocksData) {
+        let percentageSum = 0;
+        const formattedDate = moment(date);
+        stockNames.map((stock) => {
+            const boughtPriceOfStock = boughtPrices.get(stock);
+            const openPrice = this.getPrice(formattedDate, stocksData.get(stock));
+            const percentageOfStock = ((openPrice - boughtPriceOfStock) / boughtPriceOfStock) * 100;
+            percentageSum = percentageSum + percentageOfStock
+        });
+
+        return percentageSum / stockNames.length;
+    }
 
     render() {
         return (
