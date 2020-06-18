@@ -95,9 +95,39 @@ class App extends Component {
 
             const startDate = moment().subtract(7, "year").subtract(4, "month");
             const endDate = moment().subtract(2, "year").subtract(2, "month");
+            const mfStocksPorLPercentagesByDay = this.getPorLPercentagesByDay(this.state.mfStockNames, mfStocksData, this.state.date, endDate);
             createGraph(mfStocksData, nonMfStocksData, startDate, endDate);
         }
     }
+
+    getPorLPercentagesByDay(stocksNames, stocksData, startDate, endDate) {
+        const boughtPricesForStocks = this.getBoughtPricesPerStock(stocksData);
+    }
+
+    getBoughtPricesPerStock(stocksData) {
+        const boughtPricesPerStock = new Map();
+        Array.from(stocksData.keys()).map((stockName) => {
+            boughtPricesPerStock.set(stockName, this.getBoughtPrice(stocksData.get(stockName)))
+        });
+        return boughtPricesPerStock;
+    }
+
+    getBoughtPrice(stockData) {
+        let presentDay = this.state.date;
+        let boughtPrice = null;
+        const dateFormat = d3.timeParse("%Y-%m-%d");
+        do {
+            const nextDay = this.getNextDay(presentDay);
+            boughtPrice = stockData.get(nextDay);
+            presentDay = moment(dateFormat(nextDay));
+        } while (boughtPrice === undefined);
+        return boughtPrice;
+    }
+
+    getNextDay = (date) => {
+        const day = Object.assign({}, date);
+        return moment(day).add(1, "days").format("YYYY-MM-DD");
+    };
 
     render() {
         return (
