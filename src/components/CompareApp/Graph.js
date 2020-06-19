@@ -3,13 +3,14 @@ import moment from "moment";
 
 const width = 1200, height = 450, margin = 30;
 
-const createGraph = (mfStocksData, unSelectedStocksData, startDate, endDate) => {
+const createGraph = (mfStocksData, nonMfStocksData, startDate, endDate) => {
     endDate = moment().subtract(7, "year").subtract(2, "month");
     removeSVGIfPresent();
     const svg = createSVG();
     const [xScale, yScale] = createScales(startDate, endDate);
     createAxes(svg, [xScale, yScale]);
-    createChart(svg, mfStocksData, [xScale, yScale]);
+    createChart(svg, mfStocksData, [xScale, yScale], true);
+    createChart(svg, nonMfStocksData, [xScale, yScale], false);
 };
 
 const removeSVGIfPresent = () => {
@@ -102,7 +103,7 @@ const appendYAxis = (svg, yAxis) => {
         .attr('y2', height - 50);
 };
 
-const createChart = (svg, stocksData, scales) => {
+const createChart = (svg, stocksData, scales, isMf) => {
     const [xScale, yScale] = scales;
     var lineFunc = d3.line()
         .x(function (d) {
@@ -119,9 +120,10 @@ const createChart = (svg, stocksData, scales) => {
             value: stock[1]
         };
     });
+    const className = isMf ? "mf-stock" : "non-mf-stock";
     svg.append("path")
         .data([filteredStocks])
-        .attr("class", "mf-stock")
+        .attr("class", className)
         .attr("d", lineFunc);
 };
 

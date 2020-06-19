@@ -96,8 +96,8 @@ class App extends Component {
             const startDate = moment().subtract(7, "year").subtract(4, "month");
             const endDate = moment().subtract(7, "year").subtract(2, "month");
             const mfStockPercentagesByDay = this.getPorLPercentagesByDay(this.state.mfStockNames, mfStocksData, this.state.date, endDate);
-            // const nonMfStocksPercentagesByDay = this.getPorLPercentagesByDay(nonMfStocksNames, nonMfStocksData, this.state.date, endDate);
-            createGraph(mfStockPercentagesByDay, nonMfStocksData, startDate, endDate);
+            const nonMfStocksPercentagesByDay = this.getPorLPercentagesByDay(nonMfStocksNames, nonMfStocksData, this.state.date, endDate);
+            createGraph(mfStockPercentagesByDay, nonMfStocksPercentagesByDay, startDate, endDate);
         }
     }
 

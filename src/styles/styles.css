@@ -135,3 +135,10 @@
     stroke-width: 2;
     shape-rendering: crispEdges;
 }
+
+#graph .non-mf-stock {
+    fill: none;
+    stroke: red;
+    stroke-width: 2;
+    shape-rendering: crispEdges;
+}
