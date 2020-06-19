@@ -89,13 +89,13 @@
     margin-left: 0.5%;
 }
 
-.date-picker-label{
+.date-picker-label {
     float: left;
     margin-left: 2%;
     margin-top: 1.2%;
 }
 
-.date-picker{
+.date-picker {
     float: left;
     margin-left: 0.5%;
 }
@@ -104,11 +104,11 @@
     margin-left: 4%
 }
 
-.percentage-value-form .input-label{
+.percentage-value-form .input-label {
     margin-left: 2%;
 }
 
-.single-date-picker{
+.single-date-picker {
     float: left;
     margin-left: 1%;
 }
@@ -117,14 +117,21 @@
     float: left;
 }
 
-.multiple-stock-selector .select-stocks-title{
+.multiple-stock-selector .select-stocks-title {
     float: left;
     margin-left: 80%;
 }
 
-.multiple-stock-selector .multi-stock-selection{
+.multiple-stock-selector .multi-stock-selection {
     margin-left: 9%;
     width: 20%;
     float: left;
     position: absolute;
+}
+
+#graph .mf-stock {
+    fill: none;
+    stroke: dodgerblue;
+    stroke-width: 2;
+    shape-rendering: crispEdges;
 }

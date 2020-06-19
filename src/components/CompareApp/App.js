@@ -95,8 +95,9 @@ class App extends Component {
 
             const startDate = moment().subtract(7, "year").subtract(4, "month");
             const endDate = moment().subtract(7, "year").subtract(2, "month");
-            const mfStocksPorLPercentagesByDay = this.getPorLPercentagesByDay(this.state.mfStockNames, mfStocksData, this.state.date, endDate);
-            createGraph(mfStocksData, nonMfStocksData, startDate, endDate);
+            const mfStockPercentagesByDay = this.getPorLPercentagesByDay(this.state.mfStockNames, mfStocksData, this.state.date, endDate);
+            // const nonMfStocksPercentagesByDay = this.getPorLPercentagesByDay(nonMfStocksNames, nonMfStocksData, this.state.date, endDate);
+            createGraph(mfStockPercentagesByDay, nonMfStocksData, startDate, endDate);
         }
     }
 
@@ -143,7 +144,9 @@ class App extends Component {
             const boughtPriceOfStock = boughtPrices.get(stock);
             const openPrice = this.getPrice(formattedDate, stocksData.get(stock));
             const percentageOfStock = ((openPrice - boughtPriceOfStock) / boughtPriceOfStock) * 100;
-            percentageSum = percentageSum + percentageOfStock
+            if (isNaN(percentageOfStock))
+                return 0;
+            percentageSum = percentageSum + percentageOfStock;
         });
 
         return percentageSum / stockNames.length;

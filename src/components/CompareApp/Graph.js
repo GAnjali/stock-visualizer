@@ -1,12 +1,15 @@
 import * as d3 from "d3";
+import moment from "moment";
 
-const width = 1200, height = 450, margin = 30, offset = 5;
+const width = 1200, height = 450, margin = 30;
 
-const createGraph = (selectedStocksData, unSelectedStocksData, startDate, endDate) => {
+const createGraph = (mfStocksData, unSelectedStocksData, startDate, endDate) => {
+    endDate = moment().subtract(7, "year").subtract(2, "month");
     removeSVGIfPresent();
     const svg = createSVG();
     const [xScale, yScale] = createScales(startDate, endDate);
     createAxes(svg, [xScale, yScale]);
+    createChart(svg, mfStocksData, [xScale, yScale]);
 };
 
 const removeSVGIfPresent = () => {
@@ -26,6 +29,7 @@ const createScales = (startDate, endDate) => {
         .range([0, width - 60]);
     const yScale = d3.scaleLinear()
         .range([height - 50, 0]);
+    console.log(startDate);
     xScale.domain([startDate, endDate]);
     yScale.domain([-20, 100]);
 
@@ -33,7 +37,7 @@ const createScales = (startDate, endDate) => {
 };
 
 const createAxes = (svg, scales) => {
-    const xAxis = createXAxis(scales[0], -height - 20, 15);
+    const xAxis = createXAxis(scales[0], -height - 20, 20);
     const yAxis = createYAxis(scales[1], -width, 15);
     appendXAxis(svg, xAxis);
     appendYAxis(svg, yAxis);
@@ -96,6 +100,29 @@ const appendYAxis = (svg, yAxis) => {
         .attr('y1', 0)
         .attr('x2', 0)
         .attr('y2', height - 50);
+};
+
+const createChart = (svg, stocksData, scales) => {
+    const [xScale, yScale] = scales;
+    var lineFunc = d3.line()
+        .x(function (d) {
+            return xScale(d.date);
+        })
+        .y(function (d) {
+            return yScale(d.value);
+        });
+
+    var parseTime = d3.timeParse("%Y-%m-%d");
+    const filteredStocks = Array.from(stocksData).map((stock) => {
+        return {
+            date: moment(parseTime(stock[0])),
+            value: stock[1]
+        };
+    });
+    svg.append("path")
+        .data([filteredStocks])
+        .attr("class", "mf-stock")
+        .attr("d", lineFunc);
 };
 
 export default createGraph;
