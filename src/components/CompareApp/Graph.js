@@ -4,10 +4,9 @@ import moment from "moment";
 const width = 1200, height = 450, margin = 30;
 
 const createGraph = (mfStocksData, nonMfStocksData, startDate, endDate) => {
-    endDate = moment().subtract(7, "year").subtract(2, "month");
     removeSVGIfPresent();
     const svg = createSVG();
-    const [xScale, yScale] = createScales(startDate, endDate);
+    const [xScale, yScale] = createScales(startDate, endDate, mfStocksData, nonMfStocksData);
     createAxes(svg, [xScale, yScale]);
     createChart(svg, mfStocksData, [xScale, yScale], true);
     createChart(svg, nonMfStocksData, [xScale, yScale], false);
@@ -25,16 +24,49 @@ const createSVG = () => {
         .attr("padding-top", 40);
 };
 
-const createScales = (startDate, endDate) => {
+const getMinPercentage = (mfStocksData, nonMfStocksData) => {
+    return d3.min([d3.min(Array.from(mfStocksData.keys()).map((date) => {
+        return mfStocksData.get(date);
+    })), d3.min(Array.from(nonMfStocksData.keys()).map((date) => {
+        return nonMfStocksData.get(date);
+    }))]);
+};
+
+const getMaxPercentage = (mfStocksData, nonMfStocksData) => {
+    return d3.max(
+        [d3.max(Array.from(mfStocksData.keys()).map((date) => {
+            return mfStocksData.get(date);
+        })), d3.max(Array.from(nonMfStocksData.keys()).map((date) => {
+            return nonMfStocksData.get(date);
+        }))])
+};
+
+const createScales = (startDate, endDate, mfStocksData, nonMfStocksData) => {
     const xScale = d3.scaleTime()
         .range([0, width - 60]);
     const yScale = d3.scaleLinear()
         .range([height - 50, 0]);
-    console.log(startDate);
-    xScale.domain([startDate, endDate]);
-    yScale.domain([-20, 100]);
+    const minOffsetDate = getOffsetDates(startDate, endDate);
+    const minPercentage = getMinPercentage(mfStocksData, nonMfStocksData);
+    const maxPercentage = getMaxPercentage(mfStocksData, nonMfStocksData);
+    const offsetMinPercentage = minPercentage - (maxPercentage - minPercentage) / 7;
+    const offsetMaxPercentage = maxPercentage + (maxPercentage - minPercentage) / 7;
+    xScale.domain([minOffsetDate, endDate]);
+    yScale.domain([offsetMinPercentage, offsetMaxPercentage]);
 
     return [xScale, yScale];
+};
+
+const getOffsetDates = (startDate, endDate) => {
+    const offset = 3;
+    let minOffsetDate = d3.timeDay.offset(startDate, -offset);
+    const dateDiff = endDate - startDate;
+    if (dateDiff % 30000000000 <= 1) {
+        minOffsetDate = d3.timeMonth.offset(startDate, -offset);
+    } else if (dateDiff > 2000000000) {
+        minOffsetDate = d3.timeDay.offset(startDate, -offset);
+    }
+    return minOffsetDate;
 };
 
 const createAxes = (svg, scales) => {
