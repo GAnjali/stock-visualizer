@@ -93,10 +93,11 @@ class App extends Component {
             const nonMfStocksNames = this.getNonMfStockNames();
             const nonMfStocksData = this.getFilteredStocksData(nonMfStocksNames);
 
-            const startDate = moment().subtract(7, "year").subtract(4, "month");
-            const endDate = moment().subtract(7, "year").subtract(2, "month");
-            const mfStockPercentagesByDay = this.getPorLPercentagesByDay(this.state.mfStockNames, mfStocksData, this.state.date, endDate);
-            const nonMfStocksPercentagesByDay = this.getPorLPercentagesByDay(nonMfStocksNames, nonMfStocksData, this.state.date, endDate);
+            const endDate = moment("2018-02-07");
+            const startDate = moment(endDate).subtract(parseInt(process.env.REACT_APP_COMPARE_STOCKS_MONTH_STOCKS), "month");
+            const mfStockPercentagesByDay = this.getPorLPercentagesByDay(this.state.mfStockNames, mfStocksData, startDate, endDate);
+            const nonMfStocksPercentagesByDay = this.getPorLPercentagesByDay(nonMfStocksNames, nonMfStocksData, startDate, endDate);
+
             createGraph(mfStockPercentagesByDay, nonMfStocksPercentagesByDay, startDate, endDate);
         }
     }
@@ -128,7 +129,7 @@ class App extends Component {
             const nextDay = this.getNextDay(presentDay).format("YYYY-MM-DD");
             boughtPrice = stockData.get(nextDay);
             presentDay = moment(dateFormat(nextDay));
-        } while (boughtPrice === undefined);
+        } while (boughtPrice === undefined || boughtPrice === "" || boughtPrice === null);
         return boughtPrice;
     }
 
