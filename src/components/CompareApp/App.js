@@ -8,6 +8,7 @@ import DatePicker from "./DatePicker";
 import * as d3 from "d3";
 import * as inputfile from "../../data/all_stocks_5yr.csv";
 import createGraph from "./Graph";
+import Dashboard from "./Dashboard";
 
 class App extends Component {
     constructor(props) {
@@ -155,20 +156,8 @@ class App extends Component {
 
     render() {
         return (
-            <div className="app">
-                <header className="App-header">
-                    <h2 className="App-title">Compare Stocks for a Mutual fund</h2>
-                </header>
-                <div className="App-intro">
-                    <ValueForm className={"amount-value-form"} amountToInvest={this.state.amountToInvest}
-                               label={"Amount to invest:"}
-                               name={"amountToInvest"}
-                               placeholder={"Enter the Amount"} handleChange={this.handleAmountInput}/>
-                    <DatePicker date={this.state.date}
-                                handleDateChange={this.handleDateChange}/>
-                    <div id={"graph"}/>
-                </div>
-            </div>
+            <Dashboard amountToInvest={this.state.amountToInvest} date={this.state.date}
+                       handleAmountInput={this.handleAmountInput} handleDateChange={this.handleDateChange}/>
         )
     }
 
