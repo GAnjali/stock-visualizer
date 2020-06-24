@@ -11,7 +11,7 @@ const Dashboard = (props) => {
             <div className="App-intro">
                 <h3 className={"stock-title"}>Stock:</h3>
                 <div className="Stock-selection">
-                    <StockSelector arrayOfData={props.stocks} onSelectChange={props.handleSelectStock}/>
+                    <StockSelector stocks={props.stocks} onSelectChange={props.handleSelectStock}/>
                     <br/><br/>
                 </div>
                 <h3 className={"date-range-title"}>Date Range:</h3>

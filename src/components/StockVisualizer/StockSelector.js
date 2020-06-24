@@ -2,15 +2,15 @@ import React from 'react';
 import Select from 'react-select';
 
 const StockSelector = (props) => {
-    let arrayOfData = props.arrayOfData;
-    let options = arrayOfData.map((data) => {
+    let stocks = props.stocks;
+    let selectorOptions = stocks.map((data) => {
             return {value: data, label: data}
         }
     );
 
     return (
         <Select id="stock-selection"
-                options={options}
+                options={selectorOptions}
                 onChange={(selectedOption) => {
                     props.onSelectChange(selectedOption.value);
                 }}
