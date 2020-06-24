@@ -32,7 +32,7 @@ class App extends Component {
 
     handleSelectStock = (selectedStock) => {
         this.setState({
-            filteredData: getFilteredData(this.state.data, selectedStock, this.state.selectedStartDate, this.state.selectedEndDate),
+            filteredData: getFilteredData(this.state.stocksData, selectedStock, this.state.selectedStartDate, this.state.selectedEndDate),
             selectedStock: selectedStock
         }, () => {
             createGraph(this.state.filteredData, this.state.selectedStartDate, this.state.selectedEndDate)
@@ -41,7 +41,7 @@ class App extends Component {
 
     handleSelectDate = (selectedStartDate, selectedEndDate) => {
         this.setState({
-            filteredData: getFilteredData(this.state.data, this.state.selectedStock, selectedStartDate, selectedEndDate),
+            filteredData: getFilteredData(this.state.stocksData, this.state.selectedStock, selectedStartDate, selectedEndDate),
             selectedStartDate: selectedStartDate,
             selectedEndDate: selectedEndDate
         }, () => {
