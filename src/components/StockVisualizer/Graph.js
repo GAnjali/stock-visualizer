@@ -26,11 +26,15 @@ const createSVG = () => {
         .attr("padding-top", 40);
 };
 
-const getFormattedData = (filterData) => {
-    const dateFormat = d3.timeParse("%Y-%m-%d");
-    const data = filterData.map(function (d) {
+function getCopyObject(filterData) {
+    return filterData.map(function (d) {
         return Object.assign({}, d);
     });
+}
+
+const getFormattedData = (filterData) => {
+    const dateFormat = d3.timeParse("%Y-%m-%d");
+    const data = getCopyObject(filterData);
     data.forEach(function (d) {
         d.date = dateFormat(d.date);
         d.close = +d.close;
@@ -81,7 +85,6 @@ const createYAxis = (scale, size, ticks) => {
 };
 
 const createAxes = (svg, data, scales) => {
-    console.log(scales);
     const xAxis = createXAxis(scales[0], -height, 15);
     const yAxis = createYAxis(scales[1], -width, 15);
     appendXAxis(svg, xAxis);
