@@ -183,6 +183,20 @@ const drawRectangles = (svg, data, scales) => {
         .attr("fill", (d) => {
             return d.open > d.close ? "red" : "green";
         });
+    drawRectanglesStem(svg, data, scales);
+};
+
+const drawRectanglesStem = (svg, data, scales) => {
+    const [xScale, yScale] = scales;
+    svg.selectAll("line.stem")
+        .data(data)
+        .enter().append("line")
+        .attr("class", "stem")
+        .attr("x1", function (d) { return xScale(d["date"]) + 0.15 * (width - 2 * margin) / data.length; })
+        .attr("x2", function (d) { return xScale(d["date"]) + 0.15 * (width - 2 * margin) / data.length; })
+        .attr("y1", function (d) { return yScale(d["high"]); })
+        .attr("y2", function (d) { return yScale(d["low"]); })
+        .attr("stroke", function (d) { return d.open > d.close ? "red" : "green"; });
 };
 
 const drawMedianLine = (svg, data, scales) => {
