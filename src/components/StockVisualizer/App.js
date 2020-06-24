@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import * as d3 from 'd3';
-import * as stocksData from "../../data/all_stocks_5yr.csv";
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
 import "../../styles/styles.css";
 import moment from "moment";
 import createGraph from "./Graph";
 import Dashboard from "./Dashboard";
+import {getFilteredData, readStockData} from "./StockVisualizerUtil";
 
 class App extends Component {
     constructor(props) {
@@ -21,39 +20,19 @@ class App extends Component {
         }
     }
 
-    componentWillMount() {
-        this.readStockData();
-    }
-
-    readStockData() {
-        d3.csv(stocksData, function (d) {
-            return {
-                date: d.date,
-                open: d.open,
-                high: d.high,
-                low: d.low,
-                close: d.close,
-                Name: d.Name,
-            };
-        }).then(data => {
+    componentDidMount = async () => {
+        const [stocksData, stocks] = await readStockData();
+        if (stocksData !== null && stocks !== null && stocks !== undefined && stocksData !== undefined) {
             this.setState({
-                stockData: data,
-                stocks: this.getStocks(data)
-            });
-        });
-    }
-
-    getStocks = (data) => {
-        const stocksNames = new Set();
-        data.map(function (d) {
-            return stocksNames.add(d.Name);
-        });
-        return Array.from(stocksNames);
+                stocksData: stocksData,
+                stocks: stocks
+            })
+        }
     };
 
     handleSelectStock = (selectedStock) => {
         this.setState({
-            filteredData: this.getFilteredData(selectedStock, this.state.selectedStartDate, this.state.selectedEndDate),
+            filteredData: getFilteredData(this.state.data, selectedStock, this.state.selectedStartDate, this.state.selectedEndDate),
             selectedStock: selectedStock
         }, () => {
             createGraph(this.state.filteredData, this.state.selectedStartDate, this.state.selectedEndDate)
@@ -62,29 +41,12 @@ class App extends Component {
 
     handleSelectDate = (selectedStartDate, selectedEndDate) => {
         this.setState({
-            filteredData: this.getFilteredData(this.state.selectedStock, selectedStartDate, selectedEndDate),
+            filteredData: getFilteredData(this.state.data, this.state.selectedStock, selectedStartDate, selectedEndDate),
             selectedStartDate: selectedStartDate,
             selectedEndDate: selectedEndDate
         }, () => {
             createGraph(this.state.filteredData, this.state.selectedStartDate, this.state.selectedEndDate)
         });
-    };
-
-    getFilteredData(selectedStock, selectedStartDate, selectedEndDate) {
-        let filteredData = [];
-        const dateFormat = d3.timeParse("%Y-%m-%d");
-        const inputData = this.state.stockData;
-        filteredData = inputData.filter((record) => {
-                if (typeof record.date === "string") {
-                    if (dateFormat(record.date) >= selectedStartDate && dateFormat(record.date) <= selectedEndDate && record.Name === selectedStock)
-                        return record;
-                } else {
-                    if (record.date >= selectedStartDate && record.date <= selectedEndDate && record.Name === selectedStock)
-                        return record;
-                }
-            }
-        );
-        return filteredData;
     };
 
     render() {
