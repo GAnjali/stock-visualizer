@@ -10,9 +10,9 @@ const getStocks = (data) => {
 };
 
 export const getFilteredData = (inputData, selectedStock, selectedStartDate, selectedEndDate) => {
-    let filteredData;
+    let filteredData = null;
     const dateFormat = d3.timeParse("%Y-%m-%d");
-    if (inputData !== undefined && inputData.length !== 0) {
+    if (inputData !== undefined && inputData !== null && inputData.length !== 0) {
         filteredData = inputData.filter((record) => {
                 if (typeof record.date === "string") {
                     if (dateFormat(record.date) >= selectedStartDate && dateFormat(record.date) <= selectedEndDate && record.Name === selectedStock)
