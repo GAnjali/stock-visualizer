@@ -2,7 +2,6 @@ import * as d3 from "d3";
 import moment from "moment";
 
 const width = 1200, height = 450, margin = 30;
-
 const createGraph = (mfStocksData, nonMfStocksData, startDate, endDate) => {
     removeSVGIfPresent();
     const svg = createSVG();
@@ -46,13 +45,11 @@ const createScales = (startDate, endDate, mfStocksData, nonMfStocksData) => {
         .range([0, width - 60]);
     const yScale = d3.scaleLinear()
         .range([height - 50, 0]);
+
     const minOffsetDate = getOffsetDates(startDate, endDate);
-    const minPercentage = getMinPercentage(mfStocksData, nonMfStocksData);
-    const maxPercentage = getMaxPercentage(mfStocksData, nonMfStocksData);
-    const offsetMinPercentage = minPercentage - (maxPercentage - minPercentage) / 7;
-    const offsetMaxPercentage = maxPercentage + (maxPercentage - minPercentage) / 7;
+    const {minPercentage, maxPercentage} = getMinMaxPercentages(mfStocksData, nonMfStocksData);
     xScale.domain([minOffsetDate, endDate]);
-    yScale.domain([offsetMinPercentage, offsetMaxPercentage]);
+    yScale.domain([minPercentage, maxPercentage]);
 
     return [xScale, yScale];
 };
@@ -67,6 +64,14 @@ const getOffsetDates = (startDate, endDate) => {
         minOffsetDate = d3.timeDay.offset(startDate, -offset);
     }
     return minOffsetDate;
+};
+
+const getMinMaxPercentages = (mfStocksData, nonMfStocksData) => {
+    const minPercentage = getMinPercentage(mfStocksData, nonMfStocksData);
+    const maxPercentage = getMaxPercentage(mfStocksData, nonMfStocksData);
+    const offsetMinPercentage = minPercentage - (maxPercentage - minPercentage) / 7;
+    const offsetMaxPercentage = maxPercentage + (maxPercentage - minPercentage) / 7;
+    return [offsetMinPercentage, offsetMaxPercentage]
 };
 
 const createAxes = (svg, scales) => {
@@ -136,27 +141,34 @@ const appendYAxis = (svg, yAxis) => {
 };
 
 const createChart = (svg, stocksData, scales, isMf) => {
+    const lineElement = getLineElement(scales);
+    const filteredStocks = getFilteredStocks(stocksData);
+    const className = isMf ? "mf-stock" : "non-mf-stock";
+    svg.append("path")
+        .data([filteredStocks])
+        .attr("class", className)
+        .attr("d", lineElement);
+};
+
+const getLineElement = (scales) => {
     const [xScale, yScale] = scales;
-    var lineFunc = d3.line()
-        .x(function (d) {
+    return d3.line()
+        .x((d) => {
             return xScale(d.date);
         })
-        .y(function (d) {
+        .y((d) => {
             return yScale(d.value);
         });
+};
 
+const getFilteredStocks = (stocksData) => {
     var parseTime = d3.timeParse("%Y-%m-%d");
-    const filteredStocks = Array.from(stocksData).map((stock) => {
+    return Array.from(stocksData).map((stock) => {
         return {
             date: moment(parseTime(stock[0])),
             value: stock[1]
         };
     });
-    const className = isMf ? "mf-stock" : "non-mf-stock";
-    svg.append("path")
-        .data([filteredStocks])
-        .attr("class", className)
-        .attr("d", lineFunc);
 };
 
 export default createGraph;
