@@ -2,13 +2,11 @@ import React, {Component} from 'react';
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
 import "../../styles/styles.css";
-import ValueForm from "./ValueForm";
 import moment from "moment";
-import DatePicker from "./DatePicker";
 import * as d3 from "d3";
-import * as inputfile from "../../data/all_stocks_5yr.csv";
 import createGraph from "./Graph";
 import Dashboard from "./Dashboard";
+import {readStockData} from "../StockVisualizer/StockVisualizerUtil";
 
 class App extends Component {
     constructor(props) {
@@ -16,7 +14,7 @@ class App extends Component {
         this.state = {
             amountToInvest: null,
             date: moment().subtract(7, "year").subtract(4, "month"),
-            stockData: [],
+            stocksData: [],
             stocks: [],
             mfStockNames: [],
             mfStockPercentages: []
@@ -40,12 +38,17 @@ class App extends Component {
 
     componentWillMount() {
         this.readConfigData();
-        this.readStocksData();
     }
 
-    componentDidMount() {
-        this.renderGraph();
-    }
+    componentDidMount = async () => {
+        const [stocksData, stocks] = await readStockData();
+        if (stocksData !== null && stocks !== null && stocks !== undefined && stocksData !== undefined) {
+            this.setState({
+                stocksData: stocksData,
+                stocks: stocks
+            }, this.renderGraph)
+        }
+    };
 
     readConfigData = () => {
         const mfStocks = process.env.REACT_APP_STOCKS_PERCENTAGES.split(",");
@@ -60,32 +63,6 @@ class App extends Component {
             mfStockNames: mfStockNames,
             mfStockPercentages: mfStockPercentages
         });
-    };
-
-    readStocksData() {
-        d3.csv(inputfile, function (d) {
-            return {
-                date: d.date,
-                open: d.open,
-                high: d.high,
-                low: d.low,
-                close: d.close,
-                Name: d.Name,
-            };
-        }).then(data => {
-            this.setState({
-                stockData: data,
-                stocks: this.getStocks(data)
-            }, this.renderGraph);
-        });
-    }
-
-    getStocks = (data) => {
-        const stocksNames = new Set();
-        data.map(function (d) {
-            return stocksNames.add(d.Name);
-        });
-        return Array.from(stocksNames);
     };
 
     renderGraph() {
@@ -171,7 +148,7 @@ class App extends Component {
 
     getOpenPricesByDay(stockName) {
         const openPriceByDay = new Map();
-        this.state.stockData.map((stock) => {
+        this.state.stocksData.map((stock) => {
             if (stock.Name === stockName && this.getFormattedDate(stock.date) > this.state.date) {
                 openPriceByDay.set(stock.date, stock.open);
             }

@@ -47,7 +47,7 @@ const createScales = (startDate, endDate, mfStocksData, nonMfStocksData) => {
         .range([height - 50, 0]);
 
     const minOffsetDate = getOffsetDates(startDate, endDate);
-    const {minPercentage, maxPercentage} = getMinMaxPercentages(mfStocksData, nonMfStocksData);
+    const [minPercentage, maxPercentage] = getMinMaxPercentages(mfStocksData, nonMfStocksData);
     xScale.domain([minOffsetDate, endDate]);
     yScale.domain([minPercentage, maxPercentage]);
 
