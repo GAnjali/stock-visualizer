@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DateRangeSelectorTests should match the DateRangeSelector snapshot 1`] = `ShallowWrapper {}`;
