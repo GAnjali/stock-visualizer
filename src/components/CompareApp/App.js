@@ -5,7 +5,7 @@ import "../../styles/styles.css";
 import moment from "moment";
 import createGraph from "./Graph";
 import Dashboard from "./Dashboard";
-import {readStockData} from "../StockVisualizer/StockVisualizerUtil";
+import {readStockData} from "../../data/dataloader";
 import {getFilteredStocksData, getNonMfStockNames, getPorLPercentagesByDay, readConfigData} from "./CompareAppUtil";
 
 class App extends Component {

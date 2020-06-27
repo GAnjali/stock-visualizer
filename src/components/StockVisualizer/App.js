@@ -5,7 +5,8 @@ import "../../styles/styles.css";
 import moment from "moment";
 import createGraph from "./Graph";
 import Dashboard from "./Dashboard";
-import {getFilteredData, readStockData} from "./StockVisualizerUtil";
+import {getFilteredData} from "./StockVisualizerUtil";
+import {readStockData} from "../../data/dataloader";
 
 class App extends Component {
     constructor(props) {
