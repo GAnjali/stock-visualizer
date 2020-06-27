@@ -12,6 +12,8 @@ export const getNonMfStockNames = (stocks, mfStockNames) => {
 };
 
 export const getFilteredStocksData = (stocksNames, stocksData, selectedDate) => {
+    if (stocksNames === null || stocksNames === undefined || stocksData === null || stocksData === undefined || selectedDate === null || selectedDate === undefined)
+        return null;
     const filteredStocksMap = new Map();
     stocksNames.map((stockName) => {
         filteredStocksMap.set(stockName, getOpenPricesByDay(stockName, stocksData, selectedDate));
