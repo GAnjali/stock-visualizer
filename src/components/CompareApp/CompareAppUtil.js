@@ -2,6 +2,10 @@ import * as d3 from "d3";
 import moment from "moment";
 
 export const getNonMfStockNames = (stocks, mfStockNames) => {
+    if (stocks === null || stocks.length === null)
+        return null;
+    if (mfStockNames === null)
+        return stocks;
     return stocks.filter((stockName) => {
         return !mfStockNames.includes(stockName);
     })
