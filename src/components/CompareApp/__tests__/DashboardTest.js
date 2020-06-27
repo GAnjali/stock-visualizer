@@ -8,7 +8,7 @@ describe("Dashboard", () => {
         shallow(<Dashboard />);
     });
 
-    it('should match the Home snapshot', function () {
+    it('should match the Dashboard snapshot', function () {
         const dashboardComponent = shallow(<Dashboard />);
         expect(dashboardComponent).toMatchSnapshot();
     });
