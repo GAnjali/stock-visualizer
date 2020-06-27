@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ValueFormTests should match the ValueForm snapshot 1`] = `ShallowWrapper {}`;
