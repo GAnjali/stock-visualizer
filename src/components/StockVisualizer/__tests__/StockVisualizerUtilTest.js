@@ -2,7 +2,8 @@ import {getFilteredData} from "../StockVisualizerUtil";
 import moment from "moment";
 
 describe("StockVisualizerUtil", () => {
-    describe("filterData method tests", () => {
+
+    describe("getFilterData method tests", () => {
         let inputData, selectedStock, selectedStartDate, selectedEndDate;
         beforeEach(() => {
             inputData = [{
