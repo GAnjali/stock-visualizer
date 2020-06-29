@@ -2,4 +2,4 @@
 
 exports[`DatePickerTests should match the DatePicker snapshot 1`] = `ShallowWrapper {}`;
 
-exports[`DatePickerTests should match the ValueForm snapshot 1`] = `ShallowWrapper {}`;
+exports[`DatePickerTests should match the InputField snapshot 1`] = `ShallowWrapper {}`;

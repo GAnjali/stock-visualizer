@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ValueForm = (props) => {
+const InputField = (props) => {
     return (
         <div className={props.className}>
             <h3 className={"input-label"}>{props.label}</h3>
@@ -10,4 +10,4 @@ const ValueForm = (props) => {
     );
 };
 
-export default ValueForm;
+export default InputField;
