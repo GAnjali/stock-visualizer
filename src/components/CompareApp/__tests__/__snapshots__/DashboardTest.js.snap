@@ -1,3 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Dashboard should match the Dashboard snapshot 1`] = `ShallowWrapper {}`;
+
 exports[`StockSelector should match the Home snapshot 1`] = `ShallowWrapper {}`;

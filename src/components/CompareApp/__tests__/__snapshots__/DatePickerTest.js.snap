@@ -1,3 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`DatePickerTests should match the DatePicker snapshot 1`] = `ShallowWrapper {}`;
+
 exports[`DatePickerTests should match the ValueForm snapshot 1`] = `ShallowWrapper {}`;
