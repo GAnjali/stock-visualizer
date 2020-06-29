@@ -1,7 +1,7 @@
-import {getFilteredData} from "../StockVisualizerUtil";
+import {getFilteredData} from "../Util";
 import moment from "moment";
 
-describe("StockVisualizerUtil", () => {
+describe("Util", () => {
 
     describe("getFilterData method tests", () => {
         let inputData, selectedStock, selectedStartDate, selectedEndDate;

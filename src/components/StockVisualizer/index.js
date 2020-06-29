@@ -5,7 +5,7 @@ import "../../styles/styles.css";
 import moment from "moment";
 import createGraph from "./Graph";
 import Dashboard from "./Dashboard";
-import {getFilteredData} from "./StockVisualizerUtil";
+import {getFilteredData} from "./Util";
 import {readStockData} from "../../data/dataloader";
 
 class StockVisualizer extends Component {

@@ -1,7 +1,7 @@
-import {getFilteredStocksData, getNonMfStockNames, readConfigData} from "../CompareAppUtil";
+import {getFilteredStocksData, getNonMfStockNames, readConfigData} from "../Util";
 import moment from "moment";
 
-describe("CompareStockUtil Tests", () => {
+describe("Util Tests", () => {
     describe("getNonMfStockNames method tests", () => {
         let stocksData, mfStockNames;
         beforeEach(() => {

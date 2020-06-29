@@ -6,7 +6,7 @@ import moment from "moment";
 import createGraph from "./Graph";
 import Dashboard from "./Dashboard";
 import {readStockData} from "../../data/dataloader";
-import {getFilteredStocksData, getNonMfStockNames, getPorLPercentagesByDay, readConfigData} from "./CompareAppUtil";
+import {getFilteredStocksData, getNonMfStockNames, getPorLPercentagesByDay, readConfigData} from "./Util";
 
 class CompareStocks extends Component {
     constructor(props) {
