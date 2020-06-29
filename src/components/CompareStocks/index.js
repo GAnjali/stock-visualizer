@@ -3,7 +3,7 @@ import moment from "moment";
 import createGraph from "./Graph";
 import Dashboard from "./Dashboard";
 import {readStockData} from "../../data/dataloader";
-import {getFilteredStocksData, getNonMfStockNames, getPorLPercentagesByDay, readConfigData} from "./Util";
+import {getFilteredStocksData, getNonMfStockNames, getProfitOrLossPercentagesByDay, readConfigData} from "./Util";
 
 class CompareStocks extends Component {
     constructor(props) {
@@ -60,8 +60,8 @@ class CompareStocks extends Component {
 
             const endDate = moment("2018-02-07");
             const startDate = moment(endDate).subtract(parseInt(process.env.REACT_APP_COMPARE_STOCKS_MONTH_STOCKS), "month");
-            const mfStockPercentagesByDay = getPorLPercentagesByDay(this.state.mfStockNames, mfStocksData, startDate, endDate, this.state.date);
-            const nonMfStocksPercentagesByDay = getPorLPercentagesByDay(nonMfStocksNames, nonMfStocksData, startDate, endDate, this.state.date);
+            const mfStockPercentagesByDay = getProfitOrLossPercentagesByDay(this.state.mfStockNames, mfStocksData, startDate, endDate, this.state.date);
+            const nonMfStocksPercentagesByDay = getProfitOrLossPercentagesByDay(nonMfStocksNames, nonMfStocksData, startDate, endDate, this.state.date);
 
             createGraph(mfStockPercentagesByDay, nonMfStocksPercentagesByDay, startDate, endDate);
         }

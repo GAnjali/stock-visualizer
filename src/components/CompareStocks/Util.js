@@ -50,7 +50,7 @@ export const readConfigData = () => {
     return [mfStockNames, mfStockPercentages];
 };
 
-export const getPorLPercentagesByDay = (stocksNames, stocksData, startDate, endDate, selectedDate) => {
+export const getProfitOrLossPercentagesByDay = (stocksNames, stocksData, startDate, endDate, selectedDate) => {
     const percentagesByDay = new Map();
     let currentDate = Object.assign({}, startDate);
     const boughtPricesForStocks = getBoughtPricesPerStock(stocksData, selectedDate);
