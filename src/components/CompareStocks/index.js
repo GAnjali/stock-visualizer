@@ -69,8 +69,10 @@ class CompareStocks extends Component {
 
     render() {
         return (
-            <Dashboard amountToInvest={this.state.amountToInvest} date={this.state.date}
-                       handleAmountInput={this.handleAmountInput} handleDateChange={this.handleDateChange}/>
+            <Dashboard amountToInvest={this.state.amountToInvest}
+                       date={this.state.date}
+                       handleAmountInput={this.handleAmountInput}
+                       handleDateChange={this.handleDateChange}/>
         )
     }
 }
