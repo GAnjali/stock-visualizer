@@ -1,0 +1,16 @@
+import React from 'react';
+import {Router, Route} from 'react-router-dom';
+import history from './history';
+import StockVisualizer from './StockVisualizer/index';
+import CompareStocks from './CompareApp/index';
+
+const App = () => (
+    <div className="App">
+        <Router history={history}>
+            <Route exact path="/" component={StockVisualizer}/>
+            <Route exact path="/compare-stocks" component={CompareStocks}/>
+        </Router>
+    </div>
+);
+
+export default App;

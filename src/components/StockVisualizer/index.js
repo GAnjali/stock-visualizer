@@ -8,7 +8,7 @@ import Dashboard from "./Dashboard";
 import {getFilteredData} from "./StockVisualizerUtil";
 import {readStockData} from "../../data/dataloader";
 
-class App extends Component {
+class StockVisualizer extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -61,4 +61,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default StockVisualizer;

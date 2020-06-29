@@ -8,7 +8,7 @@ import Dashboard from "./Dashboard";
 import {readStockData} from "../../data/dataloader";
 import {getFilteredStocksData, getNonMfStockNames, getPorLPercentagesByDay, readConfigData} from "./CompareAppUtil";
 
-class App extends Component {
+class CompareStocks extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -78,4 +78,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default CompareStocks;
