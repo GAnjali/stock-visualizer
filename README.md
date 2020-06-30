@@ -1,8 +1,8 @@
 # Stock Visualizer
 Stock visualizer is an application which is used to for 2 purposes, they are:<br/>
-- To visualize the behaviour of a stock using box-plot graph from the given data and given time interval.<br/>
-- To help portfolio manager in comparing the selected Mutual fund stocks behaviour with the remaining stocks using
- the given data.<br/>
+Task 1: To visualize the behaviour of a stock using box-plot graph from the given data and given time interval.<br/>
+Task 2: To help portfolio manager in comparing the selected Mutual fund stocks behaviour with the remaining stocks using
+ the given data.<br/><br/>
 **Conditions included:**
 - Application reads the input stocks data from all_stocks_5yr.csv file in StockVisualizer/src/data directory
 .<br/>
@@ -14,7 +14,7 @@ Stock visualizer is an application which is used to for 2 purposes, they are:<br
 - Box-plots are designed based on the open and closed price of stock.
 - Box-plot with profit is shown as green color, and the box-plot with loss is shown in red color.<br/>
 - Median line is drawn indicating the overall median price among the selected date range for selected stock.
-**Task 2:**<br/>
+<br/>**Task 2:**<br/>
 - Application gets the stocks selected for Mutual fund with corresponding percentages for stocks as environment
  variables(Which are pre-defined by portfolio manager) from .env file(Present in StockVisualizer/.env).<br/>
 - Filters the data by using the MF stocks with percentages and amount to invest on specific date from input.
