@@ -5,6 +5,7 @@ const InputField = (props) => {
         <div className={props.className}>
             <h3 className={"input-label"}>{props.label}</h3>
             <input className="text-input"
+                   type={"number"}
                    placeholder={props.placeholder}
                    value={props.amountToInvest}
                    name={props.name}

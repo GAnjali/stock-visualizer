@@ -10,12 +10,10 @@ class DatePicker extends Component {
         focusedInput: false,
     };
 
-    handleFocusChange = () => this.setState({focusedInput: true});
+    handleFocusChange = ({focused}) => this.setState({focusedInput: focused});
 
     handleDateChange = (date) => {
-        this.setState({
-            focusedInput: false
-        }, this.props.handleDateChange(date));
+        this.props.handleDateChange(date);
     };
 
     render() {
@@ -24,6 +22,7 @@ class DatePicker extends Component {
                 <h3 className={"date-picker-label"}>{"Select Date:"}</h3>
                 <div className={"single-date-picker"}>
                     <SingleDatePicker
+                        id='date'
                         date={this.props.date}
                         onDateChange={this.handleDateChange}
                         focused={this.state.focusedInput}
