@@ -8,7 +8,7 @@ import StockVisualizer from './StockVisualizer/index';
 import CompareStocks from './CompareStocks/index';
 
 const App = () => (
-    <div className="App">
+    <div>
         <Router history={history}>
             <Route exact path="/" component={StockVisualizer}/>
             <Route exact path="/compare-stocks" component={CompareStocks}/>

@@ -15,32 +15,32 @@
     box-sizing: border-box;
 }
 
-.App-intro {
+.app-intro {
     width: 100%;
     height: 50px;
     background: #838784;
     margin: auto;
 }
 
-.App-intro .stock-title {
+.app-intro .stock-title {
     float: left;
     margin-left: 20%;
     margin-top: 1.2%;
 }
 
-.App-intro .date-range-title {
+.app-intro .date-range-title {
     float: left;
     margin-left: 10%;
     margin-top: 1.2%;
 }
 
-.Stock-selection {
+.stock-selection {
     width: 15%;
     float: left;
     margin-left: 1%;
 }
 
-.DateRange-selection {
+.dateRange-selection {
     margin-top: 0.1%;
     margin-left: 1%;
     float: left;
@@ -68,7 +68,7 @@
     max-height: 150px;
 }
 
-#stock-selection {
+#stock-selector {
     width: 150px;
     margin: 6px;
 }

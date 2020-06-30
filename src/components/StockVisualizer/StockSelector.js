@@ -9,7 +9,7 @@ const StockSelector = (props) => {
     );
 
     return (
-        <Select id="stock-selection"
+        <Select id="stock-selector"
                 options={selectorOptions}
                 onChange={(selectedOption) => {
                     props.onSelectChange(selectedOption.value);
