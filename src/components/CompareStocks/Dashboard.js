@@ -1,10 +1,9 @@
 import InputField from "./InputField";
 import DatePicker from "./DatePicker";
 import React from "react";
-import Spinner from "../Spinner";
+import Spinner from "./Spinner";
 
 const Dashboard = (props) => {
-    console.log(props)
     return (
         <div className="app">
             <header className="app-header">

@@ -1,5 +1,5 @@
 import React from 'react';
-import loadIcon from "../styles/loadIcon.gif";
+import loadIcon from "../../styles/loadIcon.gif";
 
 const Spinner = () => {
     const getSpinner = () => {
