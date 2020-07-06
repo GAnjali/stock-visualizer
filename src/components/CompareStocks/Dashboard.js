@@ -1,8 +1,10 @@
 import InputField from "./InputField";
 import DatePicker from "./DatePicker";
 import React from "react";
+import Spinner from "../Spinner";
 
 const Dashboard = (props) => {
+    console.log(props)
     return (
         <div className="app">
             <header className="app-header">
@@ -15,6 +17,8 @@ const Dashboard = (props) => {
                             placeholder={"Enter the Amount"} handleChange={props.handleAmountInput}/>
                 <DatePicker date={props.date}
                             handleDateChange={props.handleDateChange}/>
+                <button className={"submit"} onClick={props.renderGraph}>Submit</button>
+                {props.loading && <Spinner/>}
                 <div id={"graph"}/>
             </div>
         </div>

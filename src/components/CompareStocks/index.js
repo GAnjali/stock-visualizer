@@ -9,6 +9,7 @@ class CompareStocks extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading: false,
             amountToInvest: null,
             date: moment().subtract(7, "year").subtract(4, "month"),
             stocksData: [],
@@ -30,7 +31,7 @@ class CompareStocks extends Component {
     handleDateChange = (date) => {
         this.setState({
             date: date
-        }, this.renderGraph);
+        });
     };
 
     componentWillMount() {
@@ -47,12 +48,26 @@ class CompareStocks extends Component {
         if (stocksData !== null && stocks !== null && stocks !== undefined && stocksData !== undefined) {
             this.setState({
                 stocksData: stocksData,
-                stocks: stocks
+                stocks: stocks,
+                loading: false
             }, this.renderGraph)
         }
     };
 
-    renderGraph() {
+    graph = () => {
+        this.setState({
+            loading: true
+        }, () => {
+            setTimeout(async () => {
+                await this.renderGraph();
+                this.setState({
+                    loading: false
+                })
+            }, 1000);
+        });
+    };
+
+    renderGraph = () => {
         if (this.state.date !== null && this.state.amountToInvest !== null && this.state.mfStockNames.length !== 0) {
             const mfStocksData = getFilteredStocksData(this.state.mfStockNames, this.state.stocksData, this.state.date);
             const nonMfStocksNames = getNonMfStockNames(this.state.stocks, this.state.mfStockNames);
@@ -64,15 +79,19 @@ class CompareStocks extends Component {
             const nonMfStocksPercentagesByDay = getProfitOrLossPercentagesByDay(nonMfStocksNames, nonMfStocksData, startDate, endDate, this.state.date);
 
             createGraph(mfStockPercentagesByDay, nonMfStocksPercentagesByDay, startDate, endDate);
+
         }
-    }
+    };
 
     render() {
         return (
-            <Dashboard amountToInvest={this.state.amountToInvest}
-                       date={this.state.date}
-                       handleAmountInput={this.handleAmountInput}
-                       handleDateChange={this.handleDateChange}/>
+            <Dashboard
+                renderGraph={this.graph}
+                loading={this.state.loading}
+                amountToInvest={this.state.amountToInvest}
+                date={this.state.date}
+                handleAmountInput={this.handleAmountInput}
+                handleDateChange={this.handleDateChange}/>
         )
     }
 }
