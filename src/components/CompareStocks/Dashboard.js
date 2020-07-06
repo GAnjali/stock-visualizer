@@ -17,7 +17,7 @@ const Dashboard = (props) => {
                             placeholder={"Enter the Amount"} handleChange={props.handleAmountInput}/>
                 <DatePicker date={props.date}
                             handleDateChange={props.handleDateChange}/>
-                <button className={"submit"} onClick={props.renderGraph}>Submit</button>
+                <button className={"submit"} onClick={props.handleSubmit}>Submit</button>
                 {props.loading && <Spinner/>}
                 <div id={"graph"}/>
             </div>

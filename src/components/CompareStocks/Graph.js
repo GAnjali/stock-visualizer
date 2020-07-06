@@ -3,7 +3,7 @@ import moment from "moment";
 
 const width = 1200, height = 450, margin = 30;
 const createGraph = (mfStocksData, nonMfStocksData, startDate, endDate) => {
-    removeSVGIfPresent();
+    removeGraphIfPresent();
     const svg = createSVG();
     const [xScale, yScale] = createScales(startDate, endDate, mfStocksData, nonMfStocksData);
     createAxes(svg, [xScale, yScale]);
@@ -11,7 +11,7 @@ const createGraph = (mfStocksData, nonMfStocksData, startDate, endDate) => {
     createChart(svg, nonMfStocksData, [xScale, yScale], false);
 };
 
-const removeSVGIfPresent = () => {
+export const removeGraphIfPresent = () => {
     d3.select("#graph svg").remove();
 };
 

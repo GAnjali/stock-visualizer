@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import moment from "moment";
-import createGraph from "./Graph";
+import createGraph, {removeGraphIfPresent} from "./Graph";
 import Dashboard from "./Dashboard";
 import {readStockData} from "../../data/dataloader";
 import {getFilteredStocksData, getNonMfStockNames, getProfitOrLossPercentagesByDay, readConfigData} from "./Util";
@@ -54,7 +54,8 @@ class CompareStocks extends Component {
         }
     };
 
-    graph = () => {
+    handleSubmit = () => {
+        removeGraphIfPresent();
         this.setState({
             loading: true
         }, () => {
@@ -86,7 +87,7 @@ class CompareStocks extends Component {
     render() {
         return (
             <Dashboard
-                renderGraph={this.graph}
+                handleSubmit={this.handleSubmit}
                 loading={this.state.loading}
                 amountToInvest={this.state.amountToInvest}
                 date={this.state.date}
